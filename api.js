@@ -4,8 +4,8 @@
 
 // Configuración de la API
 const API_CONFIG = {
-    // URL del backend - CAMBIAR ESTO A LA IP DE TU SERVIDOR UBUNTU
-    baseURL: 'http://TU_IP_SERVIDOR:3001/api',
+    // URL del backend - Servidor Ubuntu
+    baseURL: 'http://192.168.1.100:3001/api',
     // Para desarrollo local:
     // baseURL: 'http://localhost:3001/api',
     timeout: 30000 // 30 segundos
