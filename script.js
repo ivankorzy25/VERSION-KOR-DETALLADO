@@ -599,10 +599,13 @@ window.addEventListener('afterprint', () => {
 
 function initInternalMode() {
     const toggle = document.getElementById('internalModeSwitch');
+    const INTERNAL_PASSWORD = '2323';
 
     // Cargar estado guardado
     const savedState = localStorage.getItem('internalMode');
-    if (savedState === 'true') {
+    const savedPassword = sessionStorage.getItem('internalPassword');
+
+    if (savedState === 'true' && savedPassword === INTERNAL_PASSWORD) {
         toggle.checked = true;
         document.body.classList.add('internal-mode');
     }
@@ -610,11 +613,24 @@ function initInternalMode() {
     // Listener para cambios
     toggle.addEventListener('change', function() {
         if (this.checked) {
-            document.body.classList.add('internal-mode');
-            localStorage.setItem('internalMode', 'true');
+            // Pedir contraseña para activar modo interno
+            const password = prompt('Ingrese la contraseña para acceder al Modo Uso Interno:');
+
+            if (password === INTERNAL_PASSWORD) {
+                // Contraseña correcta
+                document.body.classList.add('internal-mode');
+                localStorage.setItem('internalMode', 'true');
+                sessionStorage.setItem('internalPassword', password);
+            } else {
+                // Contraseña incorrecta
+                alert('Contraseña incorrecta. No se puede acceder al Modo Uso Interno.');
+                this.checked = false;
+            }
         } else {
+            // Desactivar modo interno
             document.body.classList.remove('internal-mode');
             localStorage.setItem('internalMode', 'false');
+            sessionStorage.removeItem('internalPassword');
         }
     });
 }
