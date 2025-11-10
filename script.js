@@ -1006,7 +1006,7 @@ function handleDragEnd() {
 }
 
 // Eliminar imágenes seleccionadas
-function deleteSelectedImages() {
+async function deleteSelectedImages() {
     const checkboxes = document.querySelectorAll('.editor-image-checkbox:checked');
 
     if (checkboxes.length === 0) {
@@ -1027,32 +1027,86 @@ function deleteSelectedImages() {
         .map(cb => parseInt(cb.dataset.index))
         .sort((a, b) => b - a);
 
-    // Eliminar de mayor a menor para no afectar los índices
-    indices.forEach(index => {
-        editorImages.splice(index, 1);
-    });
+    // Obtener rutas de las imágenes a eliminar
+    const imagesToDelete = indices.map(index => editorImages[index]);
 
-    renderEditorGrid();
-    alert(`✅ ${indices.length} imagen(es) eliminada(s)`);
+    try {
+        // Llamar al backend para eliminar archivos físicamente
+        if (window.KorAPI && window.KorAPI.images) {
+            const response = await window.KorAPI.images.delete(imagesToDelete);
+            console.log('Respuesta del backend:', response);
+        }
+
+        // Eliminar del array local de mayor a menor para no afectar los índices
+        indices.forEach(index => {
+            editorImages.splice(index, 1);
+        });
+
+        renderEditorGrid();
+        alert(`✅ ${indices.length} imagen(es) eliminada(s) del servidor`);
+    } catch (error) {
+        console.error('Error al eliminar imágenes:', error);
+        alert(`❌ Error al eliminar imágenes del servidor: ${error.message}\n\nSe eliminaron localmente, pero debes actualizar manualmente en el servidor.`);
+
+        // Eliminar localmente aunque falle el backend
+        indices.forEach(index => {
+            editorImages.splice(index, 1);
+        });
+        renderEditorGrid();
+    }
 }
 
 // Agregar archivos desde el explorador
-function addFilesFromExplorer(files) {
+async function addFilesFromExplorer(files) {
     if (!files || files.length === 0) return;
 
-    let addedCount = 0;
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            editorImages.push(e.target.result);
-            addedCount++;
-            if (addedCount === files.length) {
-                renderEditorGrid();
-                alert(`✅ ${addedCount} archivo(s) agregado(s)`);
+    if (!currentProductData) {
+        alert('❌ Error: No se pudo identificar el producto actual');
+        return;
+    }
+
+    try {
+        // Subir archivos al backend
+        if (window.KorAPI && window.KorAPI.images) {
+            alert(`📤 Subiendo ${files.length} archivo(s) al servidor...`);
+
+            const response = await window.KorAPI.images.upload(
+                files,
+                currentProductData.name,
+                'generadores-nafta'
+            );
+
+            console.log('Respuesta del backend:', response);
+
+            // Agregar las nuevas rutas al array local
+            if (response.success && response.files) {
+                response.files.forEach(file => {
+                    editorImages.push(file.relativePath);
+                });
             }
-        };
-        reader.readAsDataURL(file);
-    });
+
+            renderEditorGrid();
+            alert(`✅ ${files.length} archivo(s) subido(s) al servidor exitosamente`);
+        } else {
+            // Fallback: convertir a base64 si no hay API
+            let addedCount = 0;
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editorImages.push(e.target.result);
+                    addedCount++;
+                    if (addedCount === files.length) {
+                        renderEditorGrid();
+                        alert(`✅ ${addedCount} archivo(s) agregado(s) (temporalmente)`);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    } catch (error) {
+        console.error('Error al subir archivos:', error);
+        alert(`❌ Error al subir archivos al servidor: ${error.message}`);
+    }
 }
 
 // Abrir carpeta del producto
@@ -1066,21 +1120,50 @@ function openProductFolder() {
 }
 
 // Guardar cambios y actualizar carrusel
-function saveImageChanges() {
-    // Actualizar imágenes del producto actual
-    currentProductImages = [...editorImages];
+async function saveImageChanges() {
+    if (!currentProductData) {
+        alert('❌ Error: No se pudo identificar el producto actual');
+        return;
+    }
 
-    // Reinicializar carrusel
-    initCarousel(currentProductImages);
+    try {
+        // Llamar al backend para reordenar archivos si el orden cambió
+        if (window.KorAPI && window.KorAPI.images) {
+            // alert(`💾 Guardando orden de imágenes en el servidor...`);
 
-    // Cerrar editor
-    closeImageEditor();
+            const response = await window.KorAPI.images.reorder(
+                currentProductData.name,
+                editorImages,
+                'generadores-nafta'
+            );
 
-    alert(`✅ Cambios guardados temporalmente.\n\n⚠️ IMPORTANTE: Para uso permanente, debes actualizar el HTML del producto con el nuevo array de imágenes.`);
+            console.log('Respuesta del backend (reorder):', response);
+        }
 
-    // Mostrar en consola el array actualizado
-    console.log('Array actualizado de imágenes:');
-    console.log(JSON.stringify(editorImages));
+        // Actualizar imágenes del producto actual
+        currentProductImages = [...editorImages];
+
+        // Reinicializar carrusel
+        initCarousel(currentProductImages);
+
+        // Cerrar editor
+        closeImageEditor();
+
+        alert(`✅ Cambios guardados en el servidor exitosamente.`);
+
+        // Mostrar en consola el array actualizado
+        console.log('Array actualizado de imágenes:');
+        console.log(JSON.stringify(editorImages));
+    } catch (error) {
+        console.error('Error al guardar cambios:', error);
+
+        // Guardar localmente aunque falle el backend
+        currentProductImages = [...editorImages];
+        initCarousel(currentProductImages);
+        closeImageEditor();
+
+        alert(`⚠️ Cambios guardados localmente.\n\nError al sincronizar con el servidor: ${error.message}\n\nPara hacerlos permanentes, actualiza el HTML manualmente.`);
+    }
 }
 
 // Event listeners
