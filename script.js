@@ -424,6 +424,9 @@ function calculatePrices(productData) {
 function fillModal(productData) {
     const prices = calculatePrices(productData);
 
+    // Guardar datos del producto actual para gestión
+    setCurrentProductData(productData);
+
     // Información básica
     document.getElementById('modalProductName').textContent = productData.name;
     document.getElementById('modalProductSpecs').innerHTML = `
@@ -434,12 +437,18 @@ function fillModal(productData) {
         <strong>Peso:</strong> ${productData.weight || 'N/A'}
     `;
 
-    // Imagen del producto
-    const imgElement = document.getElementById('modalProductImg');
-    imgElement.src = productData.image || 'placeholder-product.jpg';
-    imgElement.onerror = function() {
-        this.src = 'https://via.placeholder.com/400x300/fd6600/ffffff?text=' + encodeURIComponent(productData.name);
-    };
+    // Inicializar carrusel de imágenes
+    if (productData.images && productData.images.length > 0) {
+        // Si tiene array de imágenes, usar el carrusel
+        initCarousel(productData.images);
+    } else if (productData.image) {
+        // Si solo tiene una imagen, usar esa
+        initCarousel([productData.image]);
+    } else {
+        // Sin imágenes, usar placeholder
+        const placeholderImg = 'https://via.placeholder.com/400x300/fd6600/ffffff?text=' + encodeURIComponent(productData.name);
+        initCarousel([placeholderImg]);
+    }
 
     // PRECIOS PÚBLICOS (siempre visibles)
     const pvpConIVA = prices.listPrice * (1 + prices.ivaRate / 100);
@@ -688,6 +697,474 @@ function initMainContent() {
     // Inicializar smooth scroll
     initSmoothScroll();
 }
+
+// ============================================
+// SISTEMA DE CARRUSEL Y LIGHTBOX
+// ============================================
+
+let currentProductImages = [];
+let currentCarouselIndex = 0;
+let currentLightboxIndex = 0;
+
+// Inicializar carrusel al llenar el modal
+function initCarousel(images) {
+    currentProductImages = images || [];
+    currentCarouselIndex = 0;
+
+    if (currentProductImages.length === 0) {
+        // No hay imágenes, ocultar controles
+        document.getElementById('carouselPrev').style.display = 'none';
+        document.getElementById('carouselNext').style.display = 'none';
+        document.getElementById('carouselThumbnails').innerHTML = '';
+        updateImageInfo();
+        return;
+    }
+
+    // Mostrar primera imagen
+    updateCarouselImage();
+
+    // Generar miniaturas
+    const thumbnailsContainer = document.getElementById('carouselThumbnails');
+    thumbnailsContainer.innerHTML = '';
+
+    currentProductImages.forEach((imgSrc, index) => {
+        const thumb = document.createElement('img');
+        thumb.src = imgSrc;
+        thumb.alt = `Imagen ${index + 1}`;
+        thumb.className = 'carousel-thumbnail';
+        if (index === 0) thumb.classList.add('active');
+
+        thumb.addEventListener('click', () => {
+            currentCarouselIndex = index;
+            updateCarouselImage();
+        });
+
+        thumbnailsContainer.appendChild(thumb);
+    });
+
+    // Mostrar/ocultar botones según cantidad de imágenes
+    const showControls = currentProductImages.length > 1;
+    document.getElementById('carouselPrev').style.display = showControls ? 'flex' : 'none';
+    document.getElementById('carouselNext').style.display = showControls ? 'flex' : 'none';
+
+    // Actualizar información de imagen
+    updateImageInfo();
+}
+
+function updateCarouselImage() {
+    const mainImg = document.getElementById('modalProductImg');
+    mainImg.src = currentProductImages[currentCarouselIndex];
+
+    // Actualizar miniaturas activas
+    const thumbnails = document.querySelectorAll('.carousel-thumbnail');
+    thumbnails.forEach((thumb, index) => {
+        thumb.classList.toggle('active', index === currentCarouselIndex);
+    });
+
+    // Habilitar/deshabilitar botones
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+
+    prevBtn.disabled = currentCarouselIndex === 0;
+    nextBtn.disabled = currentCarouselIndex === currentProductImages.length - 1;
+
+    // Actualizar información de imagen
+    updateImageInfo();
+
+    // Actualizar estado de botones de gestión
+    updateManagementButtons();
+}
+
+// Actualizar información de la imagen actual
+function updateImageInfo() {
+    const imageInfo = document.getElementById('imageInfo');
+    if (imageInfo && currentProductImages.length > 0) {
+        imageInfo.textContent = `Imagen ${currentCarouselIndex + 1} de ${currentProductImages.length}`;
+    } else if (imageInfo) {
+        imageInfo.textContent = 'Sin imágenes';
+    }
+}
+
+// Actualizar estado de botones de gestión
+function updateManagementButtons() {
+    const btnMoveLeft = document.getElementById('btnMoveLeft');
+    const btnMoveRight = document.getElementById('btnMoveRight');
+    const btnDelete = document.getElementById('btnDeleteImage');
+
+    if (btnMoveLeft) btnMoveLeft.disabled = currentCarouselIndex === 0;
+    if (btnMoveRight) btnMoveRight.disabled = currentCarouselIndex === currentProductImages.length - 1;
+    if (btnDelete) btnDelete.disabled = currentProductImages.length <= 1;
+}
+
+// Event listeners para botones del carrusel
+document.getElementById('carouselPrev').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentCarouselIndex > 0) {
+        currentCarouselIndex--;
+        updateCarouselImage();
+    }
+});
+
+document.getElementById('carouselNext').addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentCarouselIndex < currentProductImages.length - 1) {
+        currentCarouselIndex++;
+        updateCarouselImage();
+    }
+});
+
+// Abrir lightbox al hacer click en imagen del carrusel
+document.getElementById('modalProductImg').addEventListener('click', () => {
+    if (currentProductImages.length > 0) {
+        currentLightboxIndex = currentCarouselIndex;
+        openLightbox();
+    }
+});
+
+// ============================================
+// SISTEMA DE LIGHTBOX
+// ============================================
+
+const lightbox = document.getElementById('imageLightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.querySelector('.lightbox-close');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+const lightboxCounter = document.getElementById('lightboxCounter');
+
+function openLightbox() {
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    updateLightboxImage();
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function updateLightboxImage() {
+    lightboxImg.src = currentProductImages[currentLightboxIndex];
+    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${currentProductImages.length}`;
+
+    // Habilitar/deshabilitar botones
+    lightboxPrev.disabled = currentLightboxIndex === 0;
+    lightboxNext.disabled = currentLightboxIndex === currentProductImages.length - 1;
+}
+
+// Event listeners para el lightbox
+lightboxClose.addEventListener('click', closeLightbox);
+
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+        closeLightbox();
+    }
+});
+
+lightboxPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentLightboxIndex > 0) {
+        currentLightboxIndex--;
+        updateLightboxImage();
+    }
+});
+
+lightboxNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentLightboxIndex < currentProductImages.length - 1) {
+        currentLightboxIndex++;
+        updateLightboxImage();
+    }
+});
+
+// Cerrar lightbox con ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+    }
+    // Navegación con flechas en lightbox
+    if (lightbox.classList.contains('active')) {
+        if (e.key === 'ArrowLeft' && currentLightboxIndex > 0) {
+            currentLightboxIndex--;
+            updateLightboxImage();
+        }
+        if (e.key === 'ArrowRight' && currentLightboxIndex < currentProductImages.length - 1) {
+            currentLightboxIndex++;
+            updateLightboxImage();
+        }
+    }
+});
+
+// ============================================
+// EDITOR DE IMÁGENES (MODO INTERNO)
+// ============================================
+
+let currentProductData = null;
+let editorImages = [];
+let draggedIndex = null;
+
+// Guardar datos del producto actual
+function setCurrentProductData(productData) {
+    currentProductData = productData;
+}
+
+// Abrir editor de imágenes
+function openImageEditor() {
+    const modal = document.getElementById('imageEditorModal');
+    if (!modal || !currentProductData) return;
+
+    // Actualizar nombre del producto en el editor
+    document.getElementById('editorProductName').textContent = currentProductData.name;
+
+    // Construir ruta de carpeta del producto
+    const folderPath = `assets/products/generadores-nafta/${currentProductData.name.toLowerCase().replace(/\s+/g, '-')}`;
+    document.getElementById('editorFolderPath').textContent = folderPath;
+
+    // Copiar imágenes actuales
+    editorImages = [...currentProductImages];
+
+    // Renderizar grid de imágenes
+    renderEditorGrid();
+
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Cerrar editor
+function closeImageEditor() {
+    const modal = document.getElementById('imageEditorModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Renderizar grid de imágenes en el editor
+function renderEditorGrid() {
+    const grid = document.getElementById('editorImagesGrid');
+    grid.innerHTML = '';
+
+    document.getElementById('editorFileCount').textContent = editorImages.length;
+
+    editorImages.forEach((imgSrc, index) => {
+        const item = document.createElement('div');
+        item.className = 'editor-image-item';
+        item.draggable = true;
+        item.dataset.index = index;
+
+        // Determinar si es imagen o video
+        const isVideo = imgSrc.includes('.mp4') || imgSrc.includes('.webm');
+        const mediaElement = isVideo ?
+            `<video src="${imgSrc}" muted></video>` :
+            `<img src="${imgSrc}" alt="Imagen ${index + 1}">`;
+
+        item.innerHTML = `
+            ${mediaElement}
+            <input type="checkbox" class="editor-image-checkbox" data-index="${index}">
+            <div class="editor-image-number">${index + 1}</div>
+            <div class="editor-image-name">Archivo ${index + 1}</div>
+        `;
+
+        // Event listeners para drag & drop
+        item.addEventListener('dragstart', handleDragStart);
+        item.addEventListener('dragover', handleDragOver);
+        item.addEventListener('drop', handleDrop);
+        item.addEventListener('dragend', handleDragEnd);
+
+        grid.appendChild(item);
+    });
+}
+
+// Funciones de Drag & Drop
+function handleDragStart(e) {
+    draggedIndex = parseInt(this.dataset.index);
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const dropIndex = parseInt(this.dataset.index);
+
+    if (draggedIndex !== null && draggedIndex !== dropIndex) {
+        // Reordenar array
+        const draggedItem = editorImages[draggedIndex];
+        editorImages.splice(draggedIndex, 1);
+        editorImages.splice(dropIndex, 0, draggedItem);
+
+        renderEditorGrid();
+    }
+}
+
+function handleDragEnd() {
+    this.classList.remove('dragging');
+    draggedIndex = null;
+}
+
+// Eliminar imágenes seleccionadas
+function deleteSelectedImages() {
+    const checkboxes = document.querySelectorAll('.editor-image-checkbox:checked');
+
+    if (checkboxes.length === 0) {
+        alert('⚠️ No has seleccionado ninguna imagen para eliminar.');
+        return;
+    }
+
+    if (checkboxes.length >= editorImages.length) {
+        alert('⚠️ No puedes eliminar todas las imágenes. Debe quedar al menos una.');
+        return;
+    }
+
+    const confirmed = confirm(`¿Estás seguro de eliminar ${checkboxes.length} imagen(es)?`);
+    if (!confirmed) return;
+
+    // Obtener índices seleccionados y ordenarlos en orden descendente
+    const indices = Array.from(checkboxes)
+        .map(cb => parseInt(cb.dataset.index))
+        .sort((a, b) => b - a);
+
+    // Eliminar de mayor a menor para no afectar los índices
+    indices.forEach(index => {
+        editorImages.splice(index, 1);
+    });
+
+    renderEditorGrid();
+    alert(`✅ ${indices.length} imagen(es) eliminada(s)`);
+}
+
+// Agregar archivos desde el explorador
+function addFilesFromExplorer(files) {
+    if (!files || files.length === 0) return;
+
+    let addedCount = 0;
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            editorImages.push(e.target.result);
+            addedCount++;
+            if (addedCount === files.length) {
+                renderEditorGrid();
+                alert(`✅ ${addedCount} archivo(s) agregado(s)`);
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// Abrir carpeta del producto
+function openProductFolder() {
+    if (!currentProductData) return;
+
+    const folderPath = `assets/products/generadores-nafta/${currentProductData.name.toLowerCase().replace(/\s+/g, '-')}`;
+
+    alert(`📂 Carpeta del producto:\n\n${folderPath}\n\n💡 En un entorno de producción, aquí se abriría el explorador de archivos.`);
+    console.log(`Carpeta: ${folderPath}`);
+}
+
+// Guardar cambios y actualizar carrusel
+function saveImageChanges() {
+    // Actualizar imágenes del producto actual
+    currentProductImages = [...editorImages];
+
+    // Reinicializar carrusel
+    initCarousel(currentProductImages);
+
+    // Cerrar editor
+    closeImageEditor();
+
+    alert(`✅ Cambios guardados temporalmente.\n\n⚠️ IMPORTANTE: Para uso permanente, debes actualizar el HTML del producto con el nuevo array de imágenes.`);
+
+    // Mostrar en consola el array actualizado
+    console.log('Array actualizado de imágenes:');
+    console.log(JSON.stringify(editorImages));
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Botón abrir editor
+    const btnEditImages = document.getElementById('btnEditImages');
+    if (btnEditImages) {
+        btnEditImages.addEventListener('click', openImageEditor);
+    }
+
+    // Botón cerrar editor
+    const btnCloseEditor = document.getElementById('btnCloseEditor');
+    if (btnCloseEditor) {
+        btnCloseEditor.addEventListener('click', closeImageEditor);
+    }
+
+    // Botón eliminar seleccionadas
+    const btnDeleteSelected = document.getElementById('btnDeleteSelected');
+    if (btnDeleteSelected) {
+        btnDeleteSelected.addEventListener('click', deleteSelectedImages);
+    }
+
+    // Botón agregar archivos
+    const inputEditorFiles = document.getElementById('inputEditorFiles');
+    if (inputEditorFiles) {
+        inputEditorFiles.addEventListener('change', function(e) {
+            addFilesFromExplorer(this.files);
+            this.value = ''; // Resetear
+        });
+    }
+
+    // Botón abrir carpeta
+    const btnOpenFolder = document.getElementById('btnOpenFolder');
+    if (btnOpenFolder) {
+        btnOpenFolder.addEventListener('click', openProductFolder);
+    }
+
+    // Botón guardar cambios
+    const btnSaveChanges = document.getElementById('btnSaveChanges');
+    if (btnSaveChanges) {
+        btnSaveChanges.addEventListener('click', saveImageChanges);
+    }
+
+    // Cerrar al hacer click fuera del modal
+    const editorModal = document.getElementById('imageEditorModal');
+    if (editorModal) {
+        editorModal.addEventListener('click', (e) => {
+            if (e.target === editorModal) {
+                closeImageEditor();
+            }
+        });
+    }
+});
+
+// ============================================
+// BOTÓN VER PDF
+// ============================================
+
+function openProductPDF(productName) {
+    // Construir ruta del PDF basada en el nombre del producto
+    // Ejemplo: GL3300AM -> assets/pdfs/generadores-nafta/GL3300AM.pdf
+    const pdfPath = `assets/pdfs/generadores-nafta/${productName.replace(/\s+/g, '_')}.pdf`;
+
+    // Intentar abrir el PDF
+    window.open(pdfPath, '_blank');
+
+    // Si no existe, mostrar mensaje
+    console.log(`📄 Intentando abrir PDF: ${pdfPath}`);
+}
+
+// Event listener para botón de PDF
+document.addEventListener('DOMContentLoaded', () => {
+    const btnViewPDF = document.getElementById('btnViewPDF');
+
+    if (btnViewPDF) {
+        btnViewPDF.addEventListener('click', function() {
+            if (currentProductData && currentProductData.name) {
+                openProductPDF(currentProductData.name);
+            } else {
+                alert('⚠️ No se pudo identificar el producto actual.');
+            }
+        });
+    }
+});
 
 // ============================================
 // EFECTOS ADICIONALES
