@@ -14,8 +14,8 @@ echo ""
 # 1. OBTENER IP PÚBLICA
 # ============================================
 
-echo "🌐 Obteniendo IP pública..."
-PUBLIC_IP=$(curl -s ifconfig.me)
+echo "🌐 Obteniendo IP pública (IPv4)..."
+PUBLIC_IP=$(curl -4 -s ifconfig.me)
 echo "✅ Tu IP pública es: $PUBLIC_IP"
 echo ""
 
