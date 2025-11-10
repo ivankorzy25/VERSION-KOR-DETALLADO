@@ -8,8 +8,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
-    <!-- Fondo 360 Canvas -->
-    <canvas id="bg360"></canvas>
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="login-screen">
+        <canvas id="bg360Login"></canvas>
+        <div class="login-container">
+            <div class="login-box">
+                <img src="kor-logo-2025.png" alt="KOR Logo" class="login-logo">
+                <h1>KOR GENERADORES</h1>
+                <h2>Acceso al Sistema</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="username">Usuario</label>
+                        <input type="text" id="username" name="username" required autocomplete="username">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required autocomplete="current-password">
+                    </div>
+                    <div id="loginError" class="login-error"></div>
+                    <button type="submit" class="login-button">INGRESAR</button>
+                </form>
+                <p class="login-footer">www.generadores.ar | Tel: +54 11 3956-3099</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal (oculto hasta autenticación) -->
+    <div id="mainContent" class="main-content" style="display: none;">
+        <!-- Fondo 360 Canvas -->
+        <canvas id="bg360"></canvas>
 
     <!-- Modal de Detalles de Producto -->
     <div id="productModal" class="modal">
@@ -2158,6 +2185,7 @@
         </footer>
 
     </div>
+    </div><!-- Fin mainContent -->
 
     <script src="script.js"></script>
 </body>

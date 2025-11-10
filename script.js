@@ -1,4 +1,79 @@
 // ============================================
+// SISTEMA DE AUTENTICACIÓN
+// ============================================
+
+// Credenciales de acceso (puedes cambiarlas aquí)
+const CREDENTIALS = {
+    username: 'admin',
+    password: 'kor2025'
+};
+
+// Verificar sesión al cargar la página
+function checkAuthentication() {
+    const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
+    if (isAuthenticated) {
+        showMainContent();
+    } else {
+        showLoginScreen();
+    }
+}
+
+// Mostrar pantalla de login
+function showLoginScreen() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainContent').style.display = 'none';
+    // Inicializar fondo 360 del login
+    init360BackgroundLogin();
+}
+
+// Mostrar contenido principal
+function showMainContent() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('mainContent').classList.add('authenticated');
+}
+
+// Manejar el login
+function handleLogin(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('loginError');
+
+    if (username === CREDENTIALS.username && password === CREDENTIALS.password) {
+        // Login exitoso
+        sessionStorage.setItem('authenticated', 'true');
+        errorDiv.classList.remove('show');
+
+        // Animación de salida
+        const loginScreen = document.getElementById('loginScreen');
+        loginScreen.style.transition = 'opacity 0.5s ease';
+        loginScreen.style.opacity = '0';
+
+        setTimeout(() => {
+            showMainContent();
+            // Inicializar todo el contenido principal
+            initMainContent();
+        }, 500);
+    } else {
+        // Login fallido
+        errorDiv.textContent = 'Usuario o contraseña incorrectos';
+        errorDiv.classList.add('show');
+
+        // Limpiar campos
+        document.getElementById('password').value = '';
+        document.getElementById('username').focus();
+    }
+}
+
+// Cerrar sesión (función opcional para agregar un botón de logout si lo necesitas)
+function logout() {
+    sessionStorage.removeItem('authenticated');
+    location.reload();
+}
+
+// ============================================
 // CONFIGURACIÓN FONDO 360
 // ============================================
 
@@ -9,6 +84,12 @@ let onPointerDownMouseX = 0, onPointerDownMouseY = 0;
 let lon = 0, onPointerDownLon = 0;
 let lat = 0, onPointerDownLat = 0;
 let phi = 0, theta = 0;
+
+// Variables para el fondo 360 del login
+let cameraLogin, sceneLogin, rendererLogin;
+let sphereLogin, textureLogin;
+let lonLogin = 0;
+let phiLogin = 0, thetaLogin = 0;
 
 // Inicializar escena 360
 function init360Background() {
@@ -66,6 +147,84 @@ function init360Background() {
 
     // Iniciar animación
     animate();
+}
+
+// Inicializar escena 360 para el login
+function init360BackgroundLogin() {
+    const canvas = document.getElementById('bg360Login');
+    if (!canvas) return;
+
+    // Crear cámara
+    cameraLogin = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1100);
+    cameraLogin.target = new THREE.Vector3(0, 0, 0);
+
+    // Crear escena
+    sceneLogin = new THREE.Scene();
+
+    // Crear geometría de esfera
+    const geometry = new THREE.SphereGeometry(500, 60, 40);
+    geometry.scale(-1, 1, 1);
+
+    // Cargar textura 360
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+        'background360.jpg',
+        function(loadedTexture) {
+            textureLogin = loadedTexture;
+            const material = new THREE.MeshBasicMaterial({ map: textureLogin });
+            sphereLogin = new THREE.Mesh(geometry, material);
+            sceneLogin.add(sphereLogin);
+        },
+        undefined,
+        function(error) {
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x1a1a2e,
+                wireframe: false
+            });
+            sphereLogin = new THREE.Mesh(geometry, material);
+            sceneLogin.add(sphereLogin);
+        }
+    );
+
+    // Crear renderer
+    rendererLogin = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    rendererLogin.setPixelRatio(window.devicePixelRatio);
+    rendererLogin.setSize(window.innerWidth, window.innerHeight);
+
+    // Resize listener para login
+    const loginResizeHandler = () => {
+        if (cameraLogin && rendererLogin) {
+            cameraLogin.aspect = window.innerWidth / window.innerHeight;
+            cameraLogin.updateProjectionMatrix();
+            rendererLogin.setSize(window.innerWidth, window.innerHeight);
+        }
+    };
+    window.addEventListener('resize', loginResizeHandler);
+
+    // Iniciar animación del login
+    animateLogin();
+}
+
+function animateLogin() {
+    requestAnimationFrame(animateLogin);
+    updateLogin();
+}
+
+function updateLogin() {
+    if (!cameraLogin || !rendererLogin || !sceneLogin) return;
+
+    // Auto-rotación suave
+    lonLogin += 0.05;
+
+    phiLogin = THREE.MathUtils.degToRad(90);
+    thetaLogin = THREE.MathUtils.degToRad(lonLogin);
+
+    cameraLogin.target.x = 500 * Math.sin(phiLogin) * Math.cos(thetaLogin);
+    cameraLogin.target.y = 500 * Math.cos(phiLogin);
+    cameraLogin.target.z = 500 * Math.sin(phiLogin) * Math.sin(thetaLogin);
+
+    cameraLogin.lookAt(cameraLogin.target);
+    rendererLogin.render(sceneLogin, cameraLogin);
 }
 
 function onWindowResize() {
@@ -461,6 +620,30 @@ function initInternalMode() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Configurar el formulario de login
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+
+    // Verificar autenticación
+    checkAuthentication();
+
+    // Solo inicializar el contenido principal si ya está autenticado
+    const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
+    if (isAuthenticated) {
+        initMainContent();
+    }
+
+    // Mensaje de bienvenida en consola
+    console.log('%c¡Bienvenido a KOR Generadores en Línea!', 'color: #fd6600; font-size: 20px; font-weight: bold;');
+    console.log('%cLista de Precios Mayorista DETALLADA #1083', 'color: #000; font-size: 14px;');
+    console.log('%cwww.generadores.ar | Tel/WhatsApp: +54 11 3956-3099', 'color: #fd6600; font-size: 12px;');
+    console.log('%cClick en cualquier producto para ver información comercial completa', 'color: #4CAF50; font-size: 12px;');
+});
+
+// Función para inicializar el contenido principal
+function initMainContent() {
     // Inicializar fondo 360
     init360Background();
 
@@ -478,13 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializar smooth scroll
     initSmoothScroll();
-
-    // Mensaje de bienvenida en consola
-    console.log('%c¡Bienvenido a KOR Generadores en Línea!', 'color: #fd6600; font-size: 20px; font-weight: bold;');
-    console.log('%cLista de Precios Mayorista DETALLADA #1083', 'color: #000; font-size: 14px;');
-    console.log('%cwww.generadores.ar | Tel/WhatsApp: +54 11 3956-3099', 'color: #fd6600; font-size: 12px;');
-    console.log('%cClick en cualquier producto para ver información comercial completa', 'color: #4CAF50; font-size: 12px;');
-});
+}
 
 // ============================================
 // EFECTOS ADICIONALES
