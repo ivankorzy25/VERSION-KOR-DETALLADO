@@ -95,7 +95,7 @@ body {
 
 .login-box h2 {
     color: #ddd;
-    font-size: 1em;
+    font-size: 0.5em;
     margin-bottom: 30px;
     font-weight: 400;
 }
@@ -216,7 +216,7 @@ body {
     }
 
     .login-box h2 {
-        font-size: 0.9em;
+        font-size: 0.45em;
     }
 }
 
@@ -234,7 +234,7 @@ body {
     }
 
     .login-box h2 {
-        font-size: 0.8em;
+        font-size: 0.4em;
     }
 }
 
