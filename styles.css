@@ -51,11 +51,11 @@ body {
 .login-box {
     background: rgba(0, 0, 0, 0.92);
     backdrop-filter: blur(15px);
-    padding: 25px 20px;
+    padding: 50px 40px;
     border-radius: 20px;
     box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
     border: 3px solid rgba(253, 102, 0, 0.6);
-    max-width: 450px;
+    max-width: 225px;
     width: 100%;
     text-align: center;
     animation: loginFadeIn 0.5s ease-in-out;
@@ -204,7 +204,7 @@ body {
 /* Responsive Login */
 @media (max-width: 768px) {
     .login-box {
-        padding: 20px 15px;
+        padding: 40px 30px;
     }
 
     .login-logo {
@@ -222,7 +222,7 @@ body {
 
 @media (max-width: 480px) {
     .login-box {
-        padding: 15px 10px;
+        padding: 30px 20px;
     }
 
     .login-logo {
