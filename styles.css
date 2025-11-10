@@ -73,14 +73,16 @@ body {
 }
 
 .login-logo {
-    max-width: 150px;
+    max-width: 180px;
     height: auto;
     margin-bottom: 20px;
     filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7));
     border: 3px solid #fd6600;
     border-radius: 15px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    display: block;
+    object-fit: contain;
 }
 
 .login-box h1 {

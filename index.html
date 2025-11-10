@@ -13,17 +13,17 @@
         <canvas id="bg360Login"></canvas>
         <div class="login-container">
             <div class="login-box">
-                <img src="kor-logo-2025.png" alt="KOR Logo" class="login-logo">
+                <img src="kor-logo-2025.png" alt="KOR Logo" class="login-logo" onerror="this.style.display='none'">
                 <h1>KOR GENERADORES</h1>
                 <h2>Acceso al Sistema</h2>
-                <form id="loginForm">
+                <form id="loginForm" onsubmit="return false;">
                     <div class="input-group">
                         <label for="username">Usuario</label>
-                        <input type="text" id="username" name="username" required autocomplete="username">
+                        <input type="text" id="username" required autocomplete="username">
                     </div>
                     <div class="input-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" id="password" name="password" required autocomplete="current-password">
+                        <input type="password" id="password" required autocomplete="current-password">
                     </div>
                     <div id="loginError" class="login-error"></div>
                     <button type="submit" class="login-button">INGRESAR</button>
