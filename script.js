@@ -601,29 +601,39 @@ function initInternalMode() {
     const toggle = document.getElementById('internalModeSwitch');
     const INTERNAL_PASSWORD = '2323';
 
-    // Cargar estado guardado
+    // Limpiar estado guardado si no hay contraseña válida
     const savedState = localStorage.getItem('internalMode');
     const savedPassword = sessionStorage.getItem('internalPassword');
 
+    // Solo restaurar el estado si la contraseña guardada es correcta
     if (savedState === 'true' && savedPassword === INTERNAL_PASSWORD) {
         toggle.checked = true;
         document.body.classList.add('internal-mode');
+    } else {
+        // Limpiar estados inválidos o antiguos
+        toggle.checked = false;
+        document.body.classList.remove('internal-mode');
+        localStorage.removeItem('internalMode');
+        sessionStorage.removeItem('internalPassword');
     }
 
     // Listener para cambios
     toggle.addEventListener('change', function() {
         if (this.checked) {
             // Pedir contraseña para activar modo interno
-            const password = prompt('Ingrese la contraseña para acceder al Modo Uso Interno:');
+            const password = prompt('🔒 Ingrese la contraseña para acceder al Modo Uso Interno:');
 
             if (password === INTERNAL_PASSWORD) {
                 // Contraseña correcta
                 document.body.classList.add('internal-mode');
                 localStorage.setItem('internalMode', 'true');
                 sessionStorage.setItem('internalPassword', password);
+            } else if (password !== null) {
+                // Contraseña incorrecta (solo mostrar si no canceló)
+                alert('❌ Contraseña incorrecta. No se puede acceder al Modo Uso Interno.');
+                this.checked = false;
             } else {
-                // Contraseña incorrecta
-                alert('Contraseña incorrecta. No se puede acceder al Modo Uso Interno.');
+                // Usuario canceló
                 this.checked = false;
             }
         } else {
