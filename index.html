@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOR Generadores en Línea - Lista de Precios DETALLADA - Noviembre 2025</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Fondo 360 Canvas -->
+    <canvas id="bg360"></canvas>
+
+    <!-- Modal de Detalles de Producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="modal-left">
+                    <img id="modalProductImg" src="" alt="Producto" class="product-detail-img">
+                    <h2 id="modalProductName" class="modal-product-title"></h2>
+                    <p id="modalProductSpecs" class="modal-product-specs"></p>
+                </div>
+                <div class="modal-right">
+                    <!-- PRECIOS PÚBLICOS -->
+                    <div class="pricing-section">
+                        <h3>PRECIOS DE VENTA</h3>
+
+                        <div class="price-card highlight-public">
+                            <h4>PRECIO VENTA AL PÚBLICO (CON IVA)</h4>
+                            <p class="sale-price-public" id="modalSalePricePublic"></p>
+                            <small>Precio final para el cliente</small>
+                        </div>
+
+                        <div class="price-card">
+                            <h4>PRECIO VENTA AL PÚBLICO (SIN IVA)</h4>
+                            <p class="list-price" id="modalListPrice"></p>
+                            <small>Precio base sin impuestos</small>
+                        </div>
+
+                        <div class="price-card">
+                            <h4>IVA INCLUIDO</h4>
+                            <p class="iva-amount" id="modalIVAAmount"></p>
+                            <small id="modalIVAInfo"></small>
+                        </div>
+                    </div>
+
+                    <!-- COSTOS - SOLO MODO INTERNO -->
+                    <div class="pricing-section internal-only">
+                        <h3>🔒 INFORMACIÓN DE COSTOS (USO INTERNO)</h3>
+
+                        <div class="price-card highlight">
+                            <h4>PRECIO DE COMPRA (CONTADO)</h4>
+                            <p class="purchase-price" id="modalPurchasePrice"></p>
+                            <small id="modalDiscountInfo"></small>
+                        </div>
+
+                        <div class="price-card profit">
+                            <h4>MARGEN DE GANANCIA</h4>
+                            <p class="profit-margin" id="modalProfitMargin"></p>
+                            <small id="modalProfitPercent"></small>
+                        </div>
+
+                        <div class="payment-options">
+                            <h4>OPCIONES DE PAGO</h4>
+                            <div class="payment-option">
+                                <strong>💵 CONTADO:</strong>
+                                <p id="modalCashPrice"></p>
+                            </div>
+                            <div class="payment-option">
+                                <strong>💳 FINANCIADO:</strong>
+                                <p id="modalFinancedPrice"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="specs-section">
+                        <h3>ESPECIFICACIONES TÉCNICAS</h3>
+                        <div class="spec-grid">
+                            <div class="spec-item">
+                                <span class="spec-label">⛽ Combustible:</span>
+                                <span id="modalFuelType" class="spec-value"></span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">🔊 Insonorizado:</span>
+                                <span id="modalSoundproof" class="spec-value"></span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">🏠 Cabina:</span>
+                                <span id="modalCabin" class="spec-value"></span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">🎛️ Tablero/Transfer:</span>
+                                <span id="modalControlPanel" class="spec-value"></span>
+                            </div>
+                            <div class="spec-item internal-only">
+                                <span class="spec-label">⚡ Tipo de IVA:</span>
+                                <span id="modalIVAType" class="spec-value"></span>
+                            </div>
+                            <div class="spec-item internal-only">
+                                <span class="spec-label">💵 Tipo de Dólar:</span>
+                                <span id="modalDollarType" class="spec-value"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="additional-info">
+                        <h3>INFORMACIÓN ADICIONAL</h3>
+                        <div class="info-item">
+                            <strong>🎁 Accesorios:</strong>
+                            <p id="modalAccessories"></p>
+                        </div>
+                        <div class="info-item">
+                            <strong>✅ Garantía:</strong>
+                            <p id="modalWarranty"></p>
+                        </div>
+                        <div class="info-item">
+                            <strong>💳 Financiación:</strong>
+                            <p id="modalFinancing"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <img src="kor-logo-2025.png" alt="KOR Generadores en Línea" class="logo-img">
+                <h1>GENERADORES EN LÍNEA</h1>
+                <p class="subtitle">KOR - Soluciones Energéticas Profesionales</p>
+                <p class="version-badge">VERSIÓN DETALLADA - Click en productos para ver información completa</p>
+
+                <!-- Toggle Modo Uso Interno -->
+                <div class="internal-mode-toggle">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="internalModeSwitch">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">🔒 Modo Uso Interno (Costos)</span>
+                </div>
+            </div>
+            <div class="header-info">
+                <h2>LISTA DE PRECIOS MAYORISTA</h2>
+                <p class="date">NOVIEMBRE 2025 - Lista #1083</p>
+                <p class="contact">📞 WhatsApp: +54 11 3956-3099 | ✉️ info@generadores.ar</p>
+                <p class="web">🌐 www.generadores.ar</p>
+                <p class="services">Venta, Alquiler y Servicio Técnico Multimarca - Todas las Potencias</p>
+            </div>
+        </header>
+
+        <!-- Navegación de Pestañas -->
+        <nav class="tabs-nav">
+            <button class="tab-button active" data-tab="generadores-nafta">Generadores Nafta</button>
+            <button class="tab-button" data-tab="generadores-diesel">Generadores Diesel</button>
+            <button class="tab-button" data-tab="generadores-inverter">Inverter</button>
+            <button class="tab-button" data-tab="generadores-diesel-1500">Diesel 1500 RPM</button>
+            <button class="tab-button" data-tab="generadores-cummins">Cummins</button>
+            <button class="tab-button" data-tab="generadores-gas">Generadores Gas</button>
+            <button class="tab-button" data-tab="motobombas">Motobombas</button>
+            <button class="tab-button" data-tab="hidrolavadoras">Hidrolavadoras</button>
+            <button class="tab-button" data-tab="motores">Motores</button>
+            <button class="tab-button" data-tab="motocultivadores">Motocultivadores</button>
+            <button class="tab-button" data-tab="construccion">Construcción</button>
+            <button class="tab-button" data-tab="compresores">Compresores</button>
+            <button class="tab-button" data-tab="torres">Torres Iluminación</button>
+            <button class="tab-button" data-tab="alquiler">Alquiler</button>
+        </nav>
+
+        <!-- Contenido de Pestañas -->
+        <main class="tabs-content">
+
+            <!-- GENERADORES NAFTEROS 3000 RPM -->
+            <section id="generadores-nafta" class="tab-content active">
+                <div class="section-header">
+                    <h2>Generadores Nafteros - 3000 RPM - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Potencia Máx.</th>
+                                <th>Tensión</th>
+                                <th>Motor</th>
+                                <th>Arranque</th>
+                                <th>Peso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL3300AM","power":"3000 W","voltage":"220V-12V/AVR","motor":"6,5 HP","start":"Manual","weight":"46,5 Kg","price":290,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento básico","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl3300am.jpg"}'>
+                                <td>Logus GL3300AM</td>
+                                <td>3000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>6,5 HP</td>
+                                <td>Manual</td>
+                                <td>46,5 Kg</td>
+                                <td class="price">USD 290</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL3300E","power":"3000 W","voltage":"220V-12V/AVR","motor":"6,5 HP","start":"Eléctrico","weight":"50 kg","price":355,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl3300e.jpg"}'>
+                                <td>Logus GL3300E</td>
+                                <td>3000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>6,5 HP</td>
+                                <td>Eléctrico</td>
+                                <td>50 kg</td>
+                                <td class="price">USD 355</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GE3300E PREMIUM","power":"3000 W","voltage":"220V-12V/AVR","motor":"6,5 HP","start":"Eléctrico","weight":"50 kg","price":391,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Tablero de control","accessories":"Kit completo + Batería + Ruedas","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/ge3300e.jpg"}'>
+                                <td>Logus GE3300E PREMIUM</td>
+                                <td>3000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>6,5 HP</td>
+                                <td>Eléctrico</td>
+                                <td>50 kg</td>
+                                <td class="price">USD 391</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL5500","power":"5000 W","voltage":"220V-12V/AVR","motor":"13 HP","start":"Manual","weight":"80 kg","price":475,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento básico","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl5500.jpg"}'>
+                                <td>Logus GL5500</td>
+                                <td>5000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>13 HP</td>
+                                <td>Manual</td>
+                                <td>80 kg</td>
+                                <td class="price">USD 475</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL5500E","power":"5000 W","voltage":"220V-12V/AVR","motor":"13 HP","start":"Eléctrico","weight":"85 kg","price":540,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl5500e.jpg"}'>
+                                <td>Logus GL5500E</td>
+                                <td>5000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>13 HP</td>
+                                <td>Eléctrico</td>
+                                <td>85 kg</td>
+                                <td class="price">USD 540</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GE5500E PREMIUM","power":"5000 W","voltage":"220V-12V/AVR","motor":"13 HP","start":"Eléctrico","weight":"85 kg","price":594,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Tablero de control","accessories":"Kit completo + Batería + Ruedas","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/ge5500e.jpg"}'>
+                                <td>Logus GE5500E PREMIUM</td>
+                                <td>5000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>13 HP</td>
+                                <td>Eléctrico</td>
+                                <td>85 kg</td>
+                                <td class="price">USD 594</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL6500","power":"6000 W","voltage":"220V-12V/AVR","motor":"13 HP","start":"Manual","weight":"90 kg","price":535,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento básico","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl6500.jpg"}'>
+                                <td>Logus GL6500</td>
+                                <td>6000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>13 HP</td>
+                                <td>Manual</td>
+                                <td>90 kg</td>
+                                <td class="price">USD 535</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GL6500E","power":"6000 W","voltage":"220V-12V/AVR","motor":"13 HP","start":"Eléctrico","weight":"95 kg","price":610,"category":"nafta","bonus":25,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit de mantenimiento + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90","image":"products/nafta/gl6500e.jpg"}'>
+                                <td>Logus GL6500E</td>
+                                <td>6000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>13 HP</td>
+                                <td>Eléctrico</td>
+                                <td>95 kg</td>
+                                <td class="price">USD 610</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- GENERADORES GAS (Múltiples subsecciones con diferentes configuraciones) -->
+            <section id="generadores-gas" class="tab-content">
+                <div class="section-header">
+                    <h2>Generadores a Gas Natural / Envasado</h2>
+                    <p class="note internal-only">IMPORTANTE: Esta categoría tiene diferentes tipos de dólar y bonificaciones según el modelo</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <!-- GA Series - Residenciales BILLETE -->
+                <div class="subsection">
+                    <h3>Serie GA - Generadores Gas Residenciales Insonorizados - IVA 10,5% <span class="internal-only">- DÓLAR BILLETE</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - SOLO PAGO CONTADO - TTA Incluido</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Motor</th>
+                                    <th>Insonorizado</th>
+                                    <th>TTA</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GA8000","power":"8 kVA","motor":"Gas Natural/Envasado - Eléctrico","start":"Eléctrico","soundproof":"Sí","price":5500,"category":"gas-ga-residencial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Kit instalación + Insonorizado","warranty":"24 meses garantía oficial","financing":"Solo pago contado","image":"products/gas/ga8000.jpg"}'>
+                                    <td>GA8000</td>
+                                    <td>8 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 5,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GA10000","power":"10 kVA","motor":"Gas Natural/Envasado - Eléctrico","start":"Eléctrico","soundproof":"Sí","price":6063,"category":"gas-ga-residencial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Kit instalación + Insonorizado","warranty":"24 meses garantía oficial","financing":"Solo pago contado","image":"products/gas/ga10000.jpg"}'>
+                                    <td>GA10000</td>
+                                    <td>10 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 6,063</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GA13000","power":"13 kVA","motor":"Gas Natural/Envasado - Eléctrico","start":"Eléctrico","soundproof":"Sí","price":7500,"category":"gas-ga-residencial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Kit instalación + Insonorizado","warranty":"24 meses garantía oficial","financing":"Solo pago contado","image":"products/gas/ga13000.jpg"}'>
+                                    <td>GA13000</td>
+                                    <td>13 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 7,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GA20000","power":"20 kVA","motor":"Gas Natural/Envasado - Eléctrico","start":"Eléctrico","soundproof":"Sí","price":9375,"category":"gas-ga-residencial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Kit instalación + Insonorizado","warranty":"24 meses garantía oficial","financing":"Solo pago contado","image":"products/gas/ga20000.jpg"}'>
+                                    <td>GA20000</td>
+                                    <td>20 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 9,375</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- GLT/GLG Series - Residenciales BNA -->
+                <div class="subsection">
+                    <h3>Serie GLT/GLG - Generadores Gas Residenciales - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Motor</th>
+                                    <th>Arranque</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus GLT9500E","power":"9.5 kVA","motor":"Gas Natural/Envasado","start":"Eléctrico","soundproof":"No","price":2850,"category":"gas-glt-residencial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Manual","accessories":"Kit básico instalación","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/glt9500e.jpg"}'>
+                                    <td>GLT9500E</td>
+                                    <td>9.5 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Eléctrico</td>
+                                    <td class="price">USD 2,850</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"TTA-9500 (Accesorio)","power":"Tablero Transferencia","motor":"Accesorio para GLT9500E","start":"N/A","soundproof":"N/A","price":1200,"category":"gas-accesorio","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"N/A","cabin":"No","controlPanel":"Transferencia Automática","accessories":"Tablero de transferencia automática para GLT9500E","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/tta9500.jpg"}'>
+                                    <td>TTA-9500</td>
+                                    <td>Accesorio TTA</td>
+                                    <td>Tablero Transferencia</td>
+                                    <td>N/A</td>
+                                    <td class="price">USD 1,200</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus GLG8000EM","power":"8 kVA","motor":"Gas Natural/Envasado","start":"Eléctrico","soundproof":"No","price":2650,"category":"gas-glg-residencial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Manual","accessories":"Kit básico instalación","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/glg8000em.jpg"}'>
+                                    <td>GLG8000EM</td>
+                                    <td>8 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Eléctrico</td>
+                                    <td class="price">USD 2,650</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus GLG13000EM","power":"13 kVA","motor":"Gas Natural/Envasado","start":"Eléctrico","soundproof":"No","price":3200,"category":"gas-glg-residencial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Manual","accessories":"Kit básico instalación","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/glg13000em.jpg"}'>
+                                    <td>GLG13000EM</td>
+                                    <td>13 kVA</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Eléctrico</td>
+                                    <td class="price">USD 3,200</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus GLG20000EM","power":"20 kVA Monofásico","motor":"Gas Natural/Envasado","start":"Eléctrico","soundproof":"No","price":4100,"category":"gas-glg-residencial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Manual","accessories":"Kit básico instalación","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/glg20000em.jpg"}'>
+                                    <td>GLG20000EM</td>
+                                    <td>20 kVA Mono</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Eléctrico</td>
+                                    <td class="price">USD 4,100</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus GLG20000ET","power":"20 kVA Trifásico","motor":"Gas Natural/Envasado","start":"Eléctrico","soundproof":"No","price":4350,"category":"gas-glg-residencial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Manual","accessories":"Kit básico instalación + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/glg20000et.jpg"}'>
+                                    <td>GLG20000ET</td>
+                                    <td>20 kVA Trifásico</td>
+                                    <td>Gas Natural/Envasado</td>
+                                    <td>Eléctrico</td>
+                                    <td class="price">USD 4,350</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pramac GGW Industrial - BILLETE -->
+                <div class="subsection">
+                    <h3>Serie GGW - Pramac Industrial Gas Insonorizados - IVA 10,5% <span class="internal-only">- DÓLAR BILLETE</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - SOLO PAGO CONTADO - Plan especial 9 meses sin intereses</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Motor</th>
+                                    <th>Insonorizado</th>
+                                    <th>TTA</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GGW035","power":"35 kVA","motor":"Gas Natural/Envasado Industrial","start":"Eléctrico","soundproof":"Sí","price":18500,"category":"gas-ggw-industrial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Cabina insonorizada + Kit completo","warranty":"24 meses garantía Pramac oficial","financing":"Plan especial 9 meses sin intereses","image":"products/gas/ggw035.jpg"}'>
+                                    <td>GGW035</td>
+                                    <td>35 kVA</td>
+                                    <td>Gas Industrial</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 18,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GGW050","power":"50 kVA","motor":"Gas Natural/Envasado Industrial","start":"Eléctrico","soundproof":"Sí","price":23000,"category":"gas-ggw-industrial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Cabina insonorizada + Kit completo","warranty":"24 meses garantía Pramac oficial","financing":"Plan especial 9 meses sin intereses","image":"products/gas/ggw050.jpg"}'>
+                                    <td>GGW050</td>
+                                    <td>50 kVA</td>
+                                    <td>Gas Industrial</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 23,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GGW070","power":"70 kVA","motor":"Gas Natural/Envasado Industrial","start":"Eléctrico","soundproof":"Sí","price":28500,"category":"gas-ggw-industrial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Cabina insonorizada + Kit completo","warranty":"24 meses garantía Pramac oficial","financing":"Plan especial 9 meses sin intereses","image":"products/gas/ggw070.jpg"}'>
+                                    <td>GGW070</td>
+                                    <td>70 kVA</td>
+                                    <td>Gas Industrial</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 28,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GGW080","power":"80 kVA","motor":"Gas Natural/Envasado Industrial","start":"Eléctrico","soundproof":"Sí","price":32000,"category":"gas-ggw-industrial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Cabina insonorizada + Kit completo","warranty":"24 meses garantía Pramac oficial","financing":"Plan especial 9 meses sin intereses","image":"products/gas/ggw080.jpg"}'>
+                                    <td>GGW080</td>
+                                    <td>80 kVA</td>
+                                    <td>Gas Industrial</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 32,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GGW100G","power":"100 kVA","motor":"Gas Natural/Envasado Industrial","start":"Eléctrico","soundproof":"Sí","price":38000,"category":"gas-ggw-industrial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Transferencia Automática incluida","accessories":"TTA incluido + Cabina insonorizada + Kit completo","warranty":"24 meses garantía Pramac oficial","financing":"Plan especial 9 meses sin intereses","image":"products/gas/ggw100g.jpg"}'>
+                                    <td>GGW100G</td>
+                                    <td>100 kVA</td>
+                                    <td>Gas Industrial</td>
+                                    <td>Sí</td>
+                                    <td>Incluido</td>
+                                    <td class="price">USD 38,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pramac GL027 Comercial - BILLETE -->
+                <div class="subsection">
+                    <h3>GL027 - Pramac Comercial - IVA 10,5% <span class="internal-only">- DÓLAR BILLETE</span></h3>
+                    <p class="promo internal-only">Bonificación 20%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Motor</th>
+                                    <th>Arranque</th>
+                                    <th>Insonorizado</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Pramac GL027","power":"27 kVA","motor":"Gas Natural/Envasado Comercial","start":"Eléctrico","soundproof":"No","price":12500,"category":"gas-gl027-comercial","bonus":20,"cashDiscount":0,"ivaRate":10.5,"dollarType":"BILLETE","fuel":"Gas Natural/Envasado","cabin":"No","controlPanel":"Tablero de control","accessories":"Kit instalación básico","warranty":"24 meses garantía Pramac oficial","financing":"Consultar opciones disponibles","image":"products/gas/gl027.jpg"}'>
+                                    <td>GL027</td>
+                                    <td>27 kVA</td>
+                                    <td>Gas Comercial</td>
+                                    <td>Eléctrico</td>
+                                    <td>No</td>
+                                    <td class="price">USD 12,500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Logus Gas Industrial - BNA -->
+                <div class="subsection">
+                    <h3>Logus Gas Industrial - Insonorizados con Cabina - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Motor</th>
+                                    <th>Insonorizado</th>
+                                    <th>Cabina</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus 41BR GAS","power":"41 KVA","voltage":"380/220V","motor":"Gas Natural/Envasado - 4 cil - 1500 RPM","start":"Eléctrico","soundproof":"Sí","price":16500,"category":"gas-logus-industrial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Tablero digital","accessories":"Cabina insonorizada + Kit instalación + Batería","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/logus41br-gas.jpg"}'>
+                                    <td>Logus 41BR GAS</td>
+                                    <td>41 KVA</td>
+                                    <td>Gas Industrial - 4 cil</td>
+                                    <td>Sí</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 16,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus 69BR GAS","power":"69 KVA","voltage":"380/220V","motor":"Gas Natural/Envasado - 4 cil - 1500 RPM","start":"Eléctrico","soundproof":"Sí","price":19800,"category":"gas-logus-industrial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Tablero digital","accessories":"Cabina insonorizada + Kit instalación + Batería","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/logus69br-gas.jpg"}'>
+                                    <td>Logus 69BR GAS</td>
+                                    <td>69 KVA</td>
+                                    <td>Gas Industrial - 4 cil</td>
+                                    <td>Sí</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 19,800</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Logus 125BR GAS","power":"125 KVA","voltage":"380/220V","motor":"Gas Natural/Envasado - 6 cil - 1500 RPM","start":"Eléctrico","soundproof":"Sí","price":28000,"category":"gas-logus-industrial","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Gas Natural/Envasado","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Kit instalación + Batería","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/gas/logus125br-gas.jpg"}'>
+                                    <td>Logus 125BR GAS</td>
+                                    <td>125 KVA</td>
+                                    <td>Gas Industrial - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 28,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GENERADORES DIESEL 3000 RPM -->
+            <section id="generadores-diesel" class="tab-content">
+                <div class="section-header">
+                    <h2>Generadores Diesel - 3000 RPM - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="note internal-only">NOTA: KDE20SS3 y KDE30SS3 tienen bonificación 20%</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Potencia Máx.</th>
+                                <th>Tensión</th>
+                                <th>Motor</th>
+                                <th>Arranque</th>
+                                <th>Peso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE6500T SILENT","power":"6000 W","voltage":"220V-12V/AVR","motor":"9 HP Diesel","start":"Eléctrico","weight":"177 Kg","price":1594,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"No","controlPanel":"Tablero incluido","accessories":"Kit de mantenimiento + Batería","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde6500t.jpg"}'>
+                                <td>Kipor KDE6500T SILENT</td>
+                                <td>6000 W</td>
+                                <td>220V-12V/AVR</td>
+                                <td>9 HP</td>
+                                <td>Eléctrico</td>
+                                <td>177 Kg</td>
+                                <td class="price">USD 1,594</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE6500T3 SILENT","power":"6 Kva","voltage":"380-220V/AVR","motor":"9 HP Diesel","start":"Eléctrico","weight":"171 Kg","price":1667,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"No","controlPanel":"Tablero incluido","accessories":"Kit de mantenimiento + Batería","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde6500t3.jpg"}'>
+                                <td>Kipor KDE6500T3 SILENT</td>
+                                <td>6 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>9 HP</td>
+                                <td>Eléctrico</td>
+                                <td>171 Kg</td>
+                                <td class="price">USD 1,667</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GLD9500ED DUAL","power":"9000 W DUAL","voltage":"220-380V","motor":"16 HP Diesel","start":"Eléctrico","weight":"190 Kg","price":1957,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero incluido","accessories":"Kit de mantenimiento + Batería + Doble voltaje","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/gld9500ed.jpg"}'>
+                                <td>Logus GLD9500ED DUAL</td>
+                                <td>9000 W DUAL</td>
+                                <td>220-380V</td>
+                                <td>16 HP</td>
+                                <td>Eléctrico</td>
+                                <td>190 Kg</td>
+                                <td class="price">USD 1,957</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE12EAF","power":"10 Kva","voltage":"220V/AVR","motor":"15 HP Diesel","start":"Eléctrico","weight":"235 Kg","price":4130,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde12eaf.jpg"}'>
+                                <td>Kipor KDE12EAF</td>
+                                <td>10 Kva</td>
+                                <td>220V/AVR</td>
+                                <td>15 HP</td>
+                                <td>Eléctrico</td>
+                                <td>235 Kg</td>
+                                <td class="price">USD 4,130</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE12EAF3","power":"10 Kva","voltage":"380-220V/AVR","motor":"15 HP Diesel","start":"Eléctrico","weight":"235 Kg","price":4275,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde12eaf3.jpg"}'>
+                                <td>Kipor KDE12EAF3</td>
+                                <td>10 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>15 HP</td>
+                                <td>Eléctrico</td>
+                                <td>235 Kg</td>
+                                <td class="price">USD 4,275</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE12STAF SILENT","power":"10000 W","voltage":"220V/AVR","motor":"15 HP Diesel","start":"Eléctrico","weight":"345 Kg","price":5652,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS + Cabina insonorizada","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde12staf.jpg"}'>
+                                <td>Kipor KDE12STAF SILENT</td>
+                                <td>10000 W</td>
+                                <td>220V/AVR</td>
+                                <td>15 HP</td>
+                                <td>Eléctrico</td>
+                                <td>345 Kg</td>
+                                <td class="price">USD 5,652</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE12STAF3 SILENT","power":"10 Kva","voltage":"380-220V/AVR","motor":"15 HP Diesel","start":"Eléctrico","weight":"345 Kg","price":5797,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS + Cabina insonorizada + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde12staf3.jpg"}'>
+                                <td>Kipor KDE12STAF3 SILENT</td>
+                                <td>10 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>15 HP</td>
+                                <td>Eléctrico</td>
+                                <td>345 Kg</td>
+                                <td class="price">USD 5,797</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE19STA3 SILENT","power":"18.5 Kva","voltage":"380-220V/AVR","motor":"25 HP 1500RPM Diesel","start":"Eléctrico","weight":"600 Kg","price":8522,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS + Cabina insonorizada + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde19sta3.jpg"}'>
+                                <td>Kipor KDE19STA3 SILENT</td>
+                                <td>18,5 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>25 HP 1500RPM</td>
+                                <td>Eléctrico</td>
+                                <td>600 Kg</td>
+                                <td class="price">USD 8,522</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Kipor KDE19STA SILENT","power":"14000 W","voltage":"220V/AVR","motor":"25 HP 1500RPM Diesel","start":"Eléctrico","weight":"600 Kg","price":8522,"category":"diesel-3000rpm","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS incluido","accessories":"Kit completo + Batería + Tablero ATS + Cabina insonorizada","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde19sta.jpg"}'>
+                                <td>Kipor KDE19STA SILENT</td>
+                                <td>14000 W</td>
+                                <td>220V/AVR</td>
+                                <td>25 HP 1500RPM</td>
+                                <td>Eléctrico</td>
+                                <td>600 Kg</td>
+                                <td class="price">USD 8,522</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"KDE20SS3 ULTRA SILENT","power":"18 Kva","voltage":"380-220V/AVR","motor":"4 cilindros Diesel","start":"Eléctrico","weight":"730 Kg","price":9171,"category":"diesel-3000rpm","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS avanzado","accessories":"Kit completo + Batería + Tablero ATS + Cabina ultra insonorizada + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde20ss3.jpg"}'>
+                                <td>KDE20SS3 ULTRA SILENT</td>
+                                <td>18 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>4 cilindros</td>
+                                <td>Eléctrico</td>
+                                <td>730 Kg</td>
+                                <td class="price">USD 9,171</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"KDE30SS3 ULTRA SILENT","power":"26 Kva","voltage":"380-220V/AVR","motor":"4 cilindros Diesel","start":"Eléctrico","weight":"850 Kg","price":12228,"category":"diesel-3000rpm","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero ATS avanzado","accessories":"Kit completo + Batería + Tablero ATS + Cabina ultra insonorizada + Trifásico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel/kde30ss3.jpg"}'>
+                                <td>KDE30SS3 ULTRA SILENT</td>
+                                <td>26 Kva</td>
+                                <td>380-220V/AVR</td>
+                                <td>4 cilindros</td>
+                                <td>Eléctrico</td>
+                                <td>850 Kg</td>
+                                <td class="price">USD 12,228</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- GENERADORES INVERTER -->
+            <section id="generadores-inverter" class="tab-content">
+                <div class="section-header">
+                    <h2>Generadores Inverter - Tecnología Silenciosa - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Potencia Máx.</th>
+                                <th>Tensión</th>
+                                <th>Motor</th>
+                                <th>Arranque</th>
+                                <th>Peso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GI1000 SILENT","power":"1000 Wts","voltage":"220 V","motor":"1.5 HP Nafta","start":"Manual","weight":"14 Kg","price":435,"category":"inverter","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"Sí","cabin":"No","controlPanel":"No","accessories":"Kit básico + Tecnología Inverter","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/inverter/gi1000.jpg"}'>
+                                <td>Logus GI1000 SILENT</td>
+                                <td>1000 Wts</td>
+                                <td>220 V</td>
+                                <td>1.5 HP</td>
+                                <td>Manual</td>
+                                <td>14 Kg</td>
+                                <td class="price">USD 435</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GI2000 SILENT","power":"2000 Wts","voltage":"220 V","motor":"3 HP Nafta","start":"Manual","weight":"22 Kg","price":507,"category":"inverter","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"Sí","cabin":"No","controlPanel":"No","accessories":"Kit básico + Tecnología Inverter + Portátil","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/inverter/gi2000.jpg"}'>
+                                <td>Logus GI2000 SILENT</td>
+                                <td>2000 Wts</td>
+                                <td>220 V</td>
+                                <td>3 HP</td>
+                                <td>Manual</td>
+                                <td>22 Kg</td>
+                                <td class="price">USD 507</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GI4500 SILENT","power":"4500 Wts","voltage":"220 V","motor":"6 HP Nafta","start":"Manual","weight":"45 Kg","price":870,"category":"inverter","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"Sí","cabin":"No","controlPanel":"No","accessories":"Kit completo + Tecnología Inverter + Ruedas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/inverter/gi4500.jpg"}'>
+                                <td>Logus GI4500 SILENT</td>
+                                <td>4500 Wts</td>
+                                <td>220 V</td>
+                                <td>6 HP</td>
+                                <td>Manual</td>
+                                <td>45 Kg</td>
+                                <td class="price">USD 870</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GI4500E SILENT","power":"4500 Wts","voltage":"220 V","motor":"6 HP Nafta","start":"Eléctrico","weight":"45 Kg","price":1014,"category":"inverter","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"Sí","cabin":"No","controlPanel":"No","accessories":"Kit completo + Tecnología Inverter + Batería + Ruedas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/inverter/gi4500e.jpg"}'>
+                                <td>Logus GI4500E SILENT</td>
+                                <td>4500 Wts</td>
+                                <td>220 V</td>
+                                <td>6 HP</td>
+                                <td>Eléctrico</td>
+                                <td>45 Kg</td>
+                                <td class="price">USD 1,014</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Logus GI5500 SILENT","power":"5500 Wts","voltage":"220 V","motor":"7 HP Nafta","start":"Eléctrico","weight":"48 Kg","price":1268,"category":"inverter","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"Sí","cabin":"No","controlPanel":"No","accessories":"Kit completo + Tecnología Inverter + Batería + Ruedas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/inverter/gi5500.jpg"}'>
+                                <td>Logus GI5500 SILENT</td>
+                                <td>5500 Wts</td>
+                                <td>220 V</td>
+                                <td>7 HP</td>
+                                <td>Eléctrico</td>
+                                <td>48 Kg</td>
+                                <td class="price">USD 1,268</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- GENERADORES DIESEL 1500 RPM -->
+            <section id="generadores-diesel-1500" class="tab-content">
+                <div class="section-header">
+                    <h2>Generadores Diesel 1500 RPM - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <!-- Diesel 1500 RPM Abierto -->
+                <div class="subsection">
+                    <h3>Generadores Diesel 1500 RPM - Abierto</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Tensión</th>
+                                    <th>Motor</th>
+                                    <th>Peso</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 21BR Abierto","power":"21 KVA","voltage":"380/220V","motor":"495D 40HP - 4 cil - 1500 RPM","weight":"780 KG","price":5707,"category":"diesel-1500rpm-abierto","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Opcional","accessories":"Generador industrial abierto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/21br-abierto.jpg"}'>
+                                    <td>LOGUS 21BR</td>
+                                    <td>21 KVA</td>
+                                    <td>380/220</td>
+                                    <td>495D 40HP - 4 cil - 1500 RPM</td>
+                                    <td>780 KG</td>
+                                    <td class="price">USD 5,707</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 41BR Abierto","power":"41 KVA","voltage":"380/220V","motor":"4100ZD 54HP - 4 cilTD - 1500 RPM","weight":"900 KG","price":7880,"category":"diesel-1500rpm-abierto","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Opcional","accessories":"Generador industrial abierto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/41br-abierto.jpg"}'>
+                                    <td>LOGUS 41BR</td>
+                                    <td>41 KVA</td>
+                                    <td>380/220</td>
+                                    <td>4100ZD 54HP - 4 cilTD -1500 RPM</td>
+                                    <td>900 KG</td>
+                                    <td class="price">USD 7,880</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 69BR Abierto","power":"69 KVA","voltage":"380/220V","motor":"R4105ZD 76HP - 4 cilTD - 1500 RPM","weight":"970 KG","price":8560,"category":"diesel-1500rpm-abierto","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Opcional","accessories":"Generador industrial abierto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/69br-abierto.jpg"}'>
+                                    <td>LOGUS 69BR</td>
+                                    <td>69 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R4105ZD 76HP - 4 cilTD -1500 RPM</td>
+                                    <td>970 KG</td>
+                                    <td class="price">USD 8,560</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 125BR Abierto","power":"125 KVA","voltage":"380/220V","motor":"R6105ZLD 150HP - 6 cilTD - 1500 RPM","weight":"1350 KG","price":12500,"category":"diesel-1500rpm-abierto","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Opcional","accessories":"Generador industrial abierto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/125br-abierto.jpg"}'>
+                                    <td>LOGUS 125BR</td>
+                                    <td>125 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R6105ZLD 150HP - 6 cilTD 1500 RPM</td>
+                                    <td>1350 KG</td>
+                                    <td class="price">USD 12,500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Diesel 1500 RPM Silent -->
+                <div class="subsection">
+                    <h3>Generadores Diesel 1500 RPM - Silent (Insonorizados)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Tensión</th>
+                                    <th>Motor</th>
+                                    <th>Peso</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 21BR Silent","power":"21 KVA","voltage":"380/220V","motor":"490D 40HP - 4 cil - 1500 RPM","weight":"1090 Kg","price":7717,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/21br-silent.jpg"}'>
+                                    <td>LOGUS 21BR</td>
+                                    <td>21 KVA</td>
+                                    <td>380/220</td>
+                                    <td>490D 40HP - 4 cil - 1500 RPM</td>
+                                    <td>1090 Kg.</td>
+                                    <td class="price">USD 7,717</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 41BR Silent","power":"41 KVA","voltage":"380/220V","motor":"4100ZD 54HP - 4 cilTD - 1500 RPM","weight":"1210 Kg","price":10274,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/41br-silent.jpg"}'>
+                                    <td>LOGUS 41BR</td>
+                                    <td>41 KVA</td>
+                                    <td>380/220</td>
+                                    <td>4100ZD 54HP - 4 cilTD - 1500 RPM</td>
+                                    <td>1210 Kg.</td>
+                                    <td class="price">USD 10,274</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 69BR Silent","power":"69 KVA","voltage":"380/220V","motor":"R4105ZD 76HP - 4 cilTD - 1500 RPM","weight":"1400 Kg","price":11501,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/69br-silent.jpg"}'>
+                                    <td>LOGUS 69BR</td>
+                                    <td>69 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R4105ZD 76HP - 4 cilTD - 1500 RPM</td>
+                                    <td>1400 Kg.</td>
+                                    <td class="price">USD 11,501</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 100BR Silent","power":"100 KVA","voltage":"380/220V","motor":"R6105ZD - 6 cilTD - 1500 RPM","weight":"1600 Kg","price":14266,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/100br-silent.jpg"}'>
+                                    <td>LOGUS 100BR</td>
+                                    <td>100 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R6105ZD - 6 cilTD - 1500 RPM</td>
+                                    <td>1600 Kg.</td>
+                                    <td class="price">USD 14,266</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 125BR Silent","power":"125 KVA","voltage":"380/220V","motor":"R6105ZLD 150HP - 6 cilTD - 1500 RPM","weight":"1800 Kg","price":16712,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/125br-silent.jpg"}'>
+                                    <td>LOGUS 125BR</td>
+                                    <td>125 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R6105ZLD 150HP - 6 cilTD 1500 RPM</td>
+                                    <td>1800 Kg.</td>
+                                    <td class="price">USD 16,712</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 165BR Silent","power":"165 KVA","voltage":"380/220V","motor":"R6110ZLD - 6 cilTD - 1500 RPM","weight":"2200 Kg","price":19560,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/165br-silent.jpg"}'>
+                                    <td>LOGUS 165BR</td>
+                                    <td>165 KVA</td>
+                                    <td>380/220</td>
+                                    <td>R6110ZLD - 6 cilTD - 1500 RPM</td>
+                                    <td>2200 Kg.</td>
+                                    <td class="price">USD 19,560</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 200BR Silent","power":"200 KVA","voltage":"380/220V","motor":"12V135AZD - 12 cilTD - 1500 RPM","weight":"2800 Kg","price":22788,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/200br-silent.jpg"}'>
+                                    <td>LOGUS 200BR</td>
+                                    <td>200 KVA</td>
+                                    <td>380/220</td>
+                                    <td>12V135AZD - 12 cilTD - 1500 RPM</td>
+                                    <td>2800 Kg.</td>
+                                    <td class="price">USD 22,788</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"LOGUS 450BR Silent","power":"450 KVA","voltage":"380/220V","motor":"12V135BZLD - 12 cilTD - 1500 RPM","weight":"4500 Kg","price":39925,"category":"diesel-1500rpm-silent","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Opcional","accessories":"Generador insonorizado con cabina","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/diesel1500/450br-silent.jpg"}'>
+                                    <td>LOGUS 450BR</td>
+                                    <td>450 KVA</td>
+                                    <td>380/220</td>
+                                    <td>12V135BZLD - 12 cilTD - 1500 RPM</td>
+                                    <td>4500 Kg.</td>
+                                    <td class="price">USD 39,925</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="generadores-cummins" class="tab-content">
+                <div class="section-header">
+                    <h2>Generadores Cummins - Calidad Premium</h2>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <!-- Cummins YNS Series -->
+                <div class="subsection">
+                    <h3>Serie YNS - 1500 RPM - IVA 10,5%</h3>
+                    <p class="promo internal-only">Bonificación 11% - Contado descuento 9% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Tensión</th>
+                                    <th>Motor</th>
+                                    <th>Insonorizado</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS42S","power":"42 KVA","voltage":"380/220V","motor":"Cummins 4BTA3.9-G2 - 4 cil TD - 1500 RPM","weight":"1200 Kg","price":15000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital incluido","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns42s.jpg"}'>
+                                    <td>YNS42S</td>
+                                    <td>42 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 4BTA3.9-G2 - 4 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 15,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS65S","power":"65 KVA","voltage":"380/220V","motor":"Cummins 4BTA3.9-G11 - 4 cil TD - 1500 RPM","weight":"1350 Kg","price":18500,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital incluido","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns65s.jpg"}'>
+                                    <td>YNS65S</td>
+                                    <td>65 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 4BTA3.9-G11 - 4 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 18,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS88S","power":"88 KVA","voltage":"380/220V","motor":"Cummins 6BT5.9-G2 - 6 cil TD - 1500 RPM","weight":"1500 Kg","price":22000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital incluido","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns88s.jpg"}'>
+                                    <td>YNS88S</td>
+                                    <td>88 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6BT5.9-G2 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 22,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS110A","power":"110 KVA","voltage":"380/220V","motor":"Cummins 6BTA5.9-G2 - 6 cil TD - 1500 RPM","weight":"1400 Kg","price":24000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital incluido","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns110a.jpg"}'>
+                                    <td>YNS110A</td>
+                                    <td>110 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6BTA5.9-G2 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 24,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS110S","power":"110 KVA","voltage":"380/220V","motor":"Cummins 6BTA5.9-G2 - 6 cil TD - 1500 RPM","weight":"1800 Kg","price":28000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital incluido","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns110s.jpg"}'>
+                                    <td>YNS110S</td>
+                                    <td>110 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6BTA5.9-G2 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 28,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS170A","power":"170 KVA","voltage":"380/220V","motor":"Cummins 6CTA8.3-G2 - 6 cil TD - 1500 RPM","weight":"1900 Kg","price":32000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns170a.jpg"}'>
+                                    <td>YNS170A</td>
+                                    <td>170 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6CTA8.3-G2 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 32,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS170S","power":"170 KVA","voltage":"380/220V","motor":"Cummins 6CTA8.3-G2 - 6 cil TD - 1500 RPM","weight":"2400 Kg","price":38000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns170s.jpg"}'>
+                                    <td>YNS170S</td>
+                                    <td>170 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6CTA8.3-G2 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 38,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS200A","power":"200 KVA","voltage":"380/220V","motor":"Cummins 6LTAA8.9-G2 - 6 cil TD - 1500 RPM","weight":"2100 Kg","price":36000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns200a.jpg"}'>
+                                    <td>YNS200A</td>
+                                    <td>200 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6LTAA8.9-G2 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 36,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS200S","power":"200 KVA","voltage":"380/220V","motor":"Cummins 6LTAA8.9-G2 - 6 cil TD - 1500 RPM","weight":"2700 Kg","price":42000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns200s.jpg"}'>
+                                    <td>YNS200S</td>
+                                    <td>200 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6LTAA8.9-G2 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 42,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS275S","power":"275 KVA","voltage":"380/220V","motor":"Cummins NTA855-G1B - 6 cil TD - 1500 RPM","weight":"3200 Kg","price":52000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns275s.jpg"}'>
+                                    <td>YNS275S</td>
+                                    <td>275 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins NTA855-G1B - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 52,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins YNS350S","power":"350 KVA","voltage":"380/220V","motor":"Cummins NTAA855-G7 - 6 cil TD - 1500 RPM","weight":"3800 Kg","price":62000,"category":"cummins-yns","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/yns350s.jpg"}'>
+                                    <td>YNS350S</td>
+                                    <td>350 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins NTAA855-G7 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 62,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Cummins CS Series -->
+                <div class="subsection">
+                    <h3>Serie CS - 1500 RPM - IVA 10,5%</h3>
+                    <p class="promo internal-only">Bonificación 11% - Contado descuento 9% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Tensión</th>
+                                    <th>Motor</th>
+                                    <th>Insonorizado</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS200A","power":"200 KVA","voltage":"380/220V","motor":"Cummins 6LTAA8.9-G3 - 6 cil TD - 1500 RPM","weight":"2200 Kg","price":38000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs200a.jpg"}'>
+                                    <td>CS200A</td>
+                                    <td>200 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6LTAA8.9-G3 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 38,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS200S","power":"200 KVA","voltage":"380/220V","motor":"Cummins 6LTAA8.9-G3 - 6 cil TD - 1500 RPM","weight":"2800 Kg","price":44000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs200s.jpg"}'>
+                                    <td>CS200S</td>
+                                    <td>200 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins 6LTAA8.9-G3 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 44,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS275A","power":"275 KVA","voltage":"380/220V","motor":"Cummins NTA855-G4 - 6 cil TD - 1500 RPM","weight":"3300 Kg","price":54000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs275a.jpg"}'>
+                                    <td>CS275A</td>
+                                    <td>275 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins NTA855-G4 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 54,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS360A","power":"360 KVA","voltage":"380/220V","motor":"Cummins NTAA855-G7A - 6 cil TD - 1500 RPM","weight":"3900 Kg","price":64000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs360a.jpg"}'>
+                                    <td>CS360A</td>
+                                    <td>360 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins NTAA855-G7A - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 64,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS375S","power":"375 KVA","voltage":"380/220V","motor":"Cummins KTA19-G3 - 6 cil TD - 1500 RPM","weight":"4500 Kg","price":72000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs375s.jpg"}'>
+                                    <td>CS375S</td>
+                                    <td>375 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA19-G3 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 72,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS450A","power":"450 KVA","voltage":"380/220V","motor":"Cummins KTA19-G4 - 6 cil TD - 1500 RPM","weight":"4200 Kg","price":78000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs450a.jpg"}'>
+                                    <td>CS450A</td>
+                                    <td>450 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA19-G4 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 78,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS450S","power":"450 KVA","voltage":"380/220V","motor":"Cummins KTA19-G4 - 6 cil TD - 1500 RPM","weight":"5000 Kg","price":88000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs450s.jpg"}'>
+                                    <td>CS450S</td>
+                                    <td>450 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA19-G4 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 88,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS550A","power":"550 KVA","voltage":"380/220V","motor":"Cummins KTA19-G8 - 6 cil TD - 1500 RPM","weight":"4800 Kg","price":92000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs550a.jpg"}'>
+                                    <td>CS550A</td>
+                                    <td>550 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA19-G8 - 6 cil</td>
+                                    <td>No</td>
+                                    <td class="price">USD 92,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS550S","power":"550 KVA","voltage":"380/220V","motor":"Cummins KTA19-G8 - 6 cil TD - 1500 RPM","weight":"5600 Kg","price":105000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs550s.jpg"}'>
+                                    <td>CS550S</td>
+                                    <td>550 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA19-G8 - 6 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 105,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS650S","power":"650 KVA","voltage":"380/220V","motor":"Cummins KTA38-G2 - 12 cil TD - 1500 RPM","weight":"6200 Kg","price":125000,"category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días","image":"products/cummins/cs650s.jpg"}'>
+                                    <td>CS650S</td>
+                                    <td>650 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA38-G2 - 12 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">USD 125,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS1000A","power":"1000 KVA","voltage":"380/220V","motor":"Cummins KTA38-G5 - 12 cil TD - 1500 RPM","weight":"7500 Kg","price":"Consultar","category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Tablero digital avanzado","accessories":"Generador abierto + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días - Consultar opciones especiales","image":"products/cummins/cs1000a.jpg"}'>
+                                    <td>CS1000A</td>
+                                    <td>1000 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA38-G5 - 12 cil</td>
+                                    <td>No</td>
+                                    <td class="price">Consultar</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Cummins CS1000S","power":"1000 KVA","voltage":"380/220V","motor":"Cummins KTA38-G5 - 12 cil TD - 1500 RPM","weight":"9000 Kg","price":"Consultar","category":"cummins-cs","bonus":11,"cashDiscount":9,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"Sí","cabin":"Sí","controlPanel":"Tablero digital avanzado","accessories":"Cabina insonorizada premium + Batería + Kit instalación","warranty":"24 meses garantía Cummins oficial","financing":"Cheques 0-30-60-90 días - Consultar opciones especiales","image":"products/cummins/cs1000s.jpg"}'>
+                                    <td>CS1000S</td>
+                                    <td>1000 KVA</td>
+                                    <td>380/220V</td>
+                                    <td>Cummins KTA38-G5 - 12 cil</td>
+                                    <td>Sí</td>
+                                    <td class="price">Consultar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="motobombas" class="tab-content">
+                <div class="section-header">
+                    <h2>Motobombas - IVA 21%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="note internal-only">IMPORTANTE: Esta categoría tiene IVA 21% (diferente al resto)</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Capacidad/Caudal</th>
+                                <th>Motor</th>
+                                <th>Combustible</th>
+                                <th>Uso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GP50","power":"2 pulgadas - 500 L/min","motor":"6.5 HP Nafta","start":"Manual","weight":"25 Kg","price":380,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Mangueras de conexión","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gp50.jpg"}'>
+                                <td>GP50</td>
+                                <td>2" - 500 L/min</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>Agua limpia</td>
+                                <td class="price">USD 380</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GP80","power":"3 pulgadas - 1000 L/min","motor":"7 HP Nafta","start":"Manual","weight":"30 Kg","price":450,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Mangueras de conexión","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gp80.jpg"}'>
+                                <td>GP80</td>
+                                <td>3" - 1000 L/min</td>
+                                <td>7 HP</td>
+                                <td>Nafta</td>
+                                <td>Agua limpia</td>
+                                <td class="price">USD 450</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GP100","power":"4 pulgadas - 1500 L/min","motor":"13 HP Nafta","start":"Manual","weight":"45 Kg","price":620,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Mangueras de conexión","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gp100.jpg"}'>
+                                <td>GP100</td>
+                                <td>4" - 1500 L/min</td>
+                                <td>13 HP</td>
+                                <td>Nafta</td>
+                                <td>Agua limpia</td>
+                                <td class="price">USD 620</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GP100 MAX","power":"4 pulgadas - 2000 L/min","motor":"13 HP Nafta","start":"Eléctrico","weight":"50 Kg","price":750,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit completo + Mangueras + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gp100max.jpg"}'>
+                                <td>GP100 MAX</td>
+                                <td>4" - 2000 L/min</td>
+                                <td>13 HP</td>
+                                <td>Nafta</td>
+                                <td>Agua limpia - Alto caudal</td>
+                                <td class="price">USD 750</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GPD80 DIESEL","power":"3 pulgadas - 1000 L/min","motor":"9 HP Diesel","start":"Eléctrico","weight":"85 Kg","price":1250,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit completo + Mangueras + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gpd80.jpg"}'>
+                                <td>GPD80 DIESEL</td>
+                                <td>3" - 1000 L/min</td>
+                                <td>9 HP Diesel</td>
+                                <td>Diesel</td>
+                                <td>Agua limpia - Uso intensivo</td>
+                                <td class="price">USD 1,250</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GTP80","power":"3 pulgadas - 800 L/min","motor":"7 HP Nafta","start":"Manual","weight":"32 Kg","price":490,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Mangueras especiales","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/gtp80.jpg"}'>
+                                <td>GTP80</td>
+                                <td>3" - 800 L/min</td>
+                                <td>7 HP</td>
+                                <td>Nafta</td>
+                                <td>Agua sucia/turbia</td>
+                                <td class="price">USD 490</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motobomba GHP50","power":"2 pulgadas - 35 BAR","motor":"6.5 HP Nafta","start":"Manual","weight":"28 Kg","price":520,"category":"motobomba","bonus":25,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Mangueras alta presión","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motobombas/ghp50.jpg"}'>
+                                <td>GHP50</td>
+                                <td>2" - 35 BAR</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>Alta presión</td>
+                                <td class="price">USD 520</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="hidrolavadoras" class="tab-content">
+                <div class="section-header">
+                    <h2>Hidrolavadoras - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Presión / Caudal</th>
+                                <th>Motor</th>
+                                <th>Combustible</th>
+                                <th>Uso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Hidrolavadora GHL150","power":"150 BAR - 6.5 L/min","motor":"6.5 HP Nafta","start":"Manual","weight":"35 Kg","price":580,"category":"hidrolavadora","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Lanza + Manguera 8m + Boquillas + Detergente","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/hidrolavadoras/ghl150.jpg"}'>
+                                <td>GHL150</td>
+                                <td>150 BAR - 6.5 L/min</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>Doméstico/Comercial</td>
+                                <td class="price">USD 580</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Hidrolavadora GHL180","power":"180 BAR - 8 L/min","motor":"7 HP Nafta","start":"Manual","weight":"40 Kg","price":680,"category":"hidrolavadora","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Lanza + Manguera 10m + Boquillas + Detergente","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/hidrolavadoras/ghl180.jpg"}'>
+                                <td>GHL180</td>
+                                <td>180 BAR - 8 L/min</td>
+                                <td>7 HP</td>
+                                <td>Nafta</td>
+                                <td>Comercial/Industrial ligero</td>
+                                <td class="price">USD 680</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Hidrolavadora GHL250","power":"250 BAR - 12 L/min","motor":"13 HP Nafta","start":"Eléctrico","weight":"65 Kg","price":1150,"category":"hidrolavadora","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Lanza profesional + Manguera 15m + Kit boquillas + Detergente","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/hidrolavadoras/ghl250.jpg"}'>
+                                <td>GHL250</td>
+                                <td>250 BAR - 12 L/min</td>
+                                <td>13 HP</td>
+                                <td>Nafta</td>
+                                <td>Industrial intensivo</td>
+                                <td class="price">USD 1,150</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="motores" class="tab-content">
+                <div class="section-header">
+                    <h2>Motores Estacionarios - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - FINANCIACION CON CHEQUES 0-30-60-90</p>
+                    <p class="note internal-only">NOTA: Algunos modelos pueden tener disponibilidad limitada o precio a consultar</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Potencia</th>
+                                <th>Combustible</th>
+                                <th>Tipo</th>
+                                <th>Aplicación</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 152F","power":"2.5 HP","motor":"Nafta 4 tiempos - 152cc","start":"Manual","weight":"15 Kg","price":180,"category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/152f.jpg"}'>
+                                <td>152F</td>
+                                <td>2.5 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - 152cc</td>
+                                <td>Uso ligero</td>
+                                <td class="price">USD 180</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 168F","power":"6.5 HP","motor":"Nafta 4 tiempos - 196cc","start":"Manual","weight":"16 Kg","price":220,"category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/168f.jpg"}'>
+                                <td>168F</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - 196cc</td>
+                                <td>General/Bombas</td>
+                                <td class="price">USD 220</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 168F-LT","power":"6.5 HP","motor":"Nafta 4 tiempos - 196cc","start":"Manual","weight":"17 Kg","price":"SIN STOCK","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/168f-lt.jpg"}'>
+                                <td>168F-LT</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - 196cc</td>
+                                <td>General</td>
+                                <td class="price">SIN STOCK</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 168FD","power":"6.5 HP Diesel","motor":"Diesel 4 tiempos - 211cc","start":"Manual","weight":"24 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/168fd.jpg"}'>
+                                <td>168FD</td>
+                                <td>6.5 HP</td>
+                                <td>Diesel</td>
+                                <td>4T - 211cc</td>
+                                <td>Industrial</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 177F","power":"9 HP","motor":"Nafta 4 tiempos - 270cc","start":"Manual","weight":"25 Kg","price":"SIN STOCK","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/177f.jpg"}'>
+                                <td>177F</td>
+                                <td>9 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - 270cc</td>
+                                <td>Medio</td>
+                                <td class="price">SIN STOCK</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 188F","power":"13 HP","motor":"Nafta 4 tiempos - 389cc","start":"Manual","weight":"30 Kg","price":420,"category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/188f.jpg"}'>
+                                <td>188F</td>
+                                <td>13 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - 389cc</td>
+                                <td>Pesado/Bombas</td>
+                                <td class="price">USD 420</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 188FD","power":"13 HP Diesel","motor":"Diesel 4 tiempos - 406cc","start":"Manual","weight":"48 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/188fd.jpg"}'>
+                                <td>188FD</td>
+                                <td>13 HP</td>
+                                <td>Diesel</td>
+                                <td>4T - 406cc</td>
+                                <td>Industrial</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 190FD","power":"15 HP Diesel","motor":"Diesel 4 tiempos - 456cc","start":"Manual","weight":"52 Kg","price":"SIN STOCK","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/190fd.jpg"}'>
+                                <td>190FD</td>
+                                <td>15 HP</td>
+                                <td>Diesel</td>
+                                <td>4T - 456cc</td>
+                                <td>Industrial</td>
+                                <td class="price">SIN STOCK</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor KG690","power":"24 HP","motor":"Diesel 4 tiempos - 1090cc","start":"Eléctrico","weight":"185 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/kg690.jpg"}'>
+                                <td>KG690</td>
+                                <td>24 HP</td>
+                                <td>Diesel</td>
+                                <td>4T - 1090cc</td>
+                                <td>Industrial pesado</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 168F-L","power":"6.5 HP Long","motor":"Nafta 4 tiempos - 196cc Eje largo","start":"Manual","weight":"17 Kg","price":240,"category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Eje largo","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/168f-l.jpg"}'>
+                                <td>168F-L</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - Eje largo</td>
+                                <td>Aplicaciones especiales</td>
+                                <td class="price">USD 240</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor 168F-R","power":"6.5 HP Reductor","motor":"Nafta 4 tiempos - 196cc con reductor","start":"Manual","weight":"20 Kg","price":280,"category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico + Reductor incluido","warranty":"6 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/168f-r.jpg"}'>
+                                <td>168F-R</td>
+                                <td>6.5 HP</td>
+                                <td>Nafta</td>
+                                <td>4T - Con reductor</td>
+                                <td>Motocultivadores</td>
+                                <td class="price">USD 280</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor KM178F","power":"9 HP Diesel","motor":"Diesel 4 tiempos - 296cc","start":"Manual","weight":"35 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico Kipor","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/km178f.jpg"}'>
+                                <td>KM178F</td>
+                                <td>9 HP</td>
+                                <td>Diesel</td>
+                                <td>Kipor 4T - 296cc</td>
+                                <td>Industrial Kipor</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor KM186FE","power":"13 HP Diesel Eléctrico","motor":"Diesel 4 tiempos - 418cc","start":"Eléctrico","weight":"78 Kg","price":"SIN STOCK","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico Kipor + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/km186fe.jpg"}'>
+                                <td>KM186FE</td>
+                                <td>13 HP</td>
+                                <td>Diesel</td>
+                                <td>Kipor 4T - Eléctrico</td>
+                                <td>Industrial Kipor</td>
+                                <td class="price">SIN STOCK</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor KM2V80","power":"22 HP Diesel 2 Cilindros","motor":"Diesel 4 tiempos - 2 cil - 854cc","start":"Eléctrico","weight":"125 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico Kipor + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/km2v80.jpg"}'>
+                                <td>KM2V80</td>
+                                <td>22 HP</td>
+                                <td>Diesel</td>
+                                <td>Kipor 2 cil - 854cc</td>
+                                <td>Industrial pesado Kipor</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Motor KM376AG","power":"25 HP Diesel 2 Cilindros","motor":"Diesel 4 tiempos - 2 cil - 1066cc","start":"Eléctrico","weight":"145 Kg","price":"Consultar","category":"motor","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"No","accessories":"Kit básico Kipor + Batería","warranty":"12 meses","financing":"Cheques 0-30-60-90 días","image":"products/motores/km376ag.jpg"}'>
+                                <td>KM376AG</td>
+                                <td>25 HP</td>
+                                <td>Diesel</td>
+                                <td>Kipor 2 cil - 1066cc</td>
+                                <td>Industrial pesado Kipor</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="motocultivadores" class="tab-content">
+                <div class="section-header">
+                    <h2>Motocultivadores y Equipos Agrícolas</h2>
+                    <p class="note internal-only">IVA variable según producto - DÓLAR BNA</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <!-- Atomizador Mochila Fumigador -->
+                <div class="subsection">
+                    <h3>Atomizador Mochila Fumigador - IVA 21% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Motor</th>
+                                    <th>Tanque</th>
+                                    <th>Peso</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Atomizador 3WF-3","power":"42cc 2 Tiempos","motor":"42cc 2T","capacity":"26 Litros","weight":"12 Kg","price":145,"category":"atomizador-mochila","bonus":20,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"Nafta 2T","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Mochila + Manguera + Boquillas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/3wf3.jpg"}'>
+                                    <td>3WF-3</td>
+                                    <td>42cc 2 Tiempos</td>
+                                    <td>26 Litros</td>
+                                    <td>12 Kg</td>
+                                    <td class="price">USD 145</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Motocultivador Nafta -->
+                <div class="subsection">
+                    <h3>Motocultivador a Nafta - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Motor</th>
+                                    <th>Ancho Trabajo</th>
+                                    <th>Peso</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Motocultivador LT500","power":"7 HP Nafta","motor":"7 HP","workWidth":"50 cm","weight":"65 Kg","price":690,"category":"motocultivador-nafta","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Fresas incluidas + Kit herramientas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/lt500.jpg"}'>
+                                    <td>LT500</td>
+                                    <td>7 HP Nafta</td>
+                                    <td>50 cm</td>
+                                    <td>65 Kg</td>
+                                    <td class="price">USD 690</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Motocultivador Diesel - SPECIAL PRICING -->
+                <div class="subsection">
+                    <h3>Motocultivador a Diesel - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only" style="color: #ff4444; font-weight: bold;">⚠️ PRECIOS ESPECIALES: Bonificación 15% contado / 7% financiado (NO 20%/8%)</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Motor</th>
+                                    <th>Características</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Motocultivador DF15L","power":"15 HP Diesel","motor":"15 HP Diesel","features":"Modelo estándar","price":2760,"category":"motocultivador-diesel","bonus":15,"cashDiscount":7,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Fresas incluidas + Kit herramientas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/df15l.jpg"}'>
+                                    <td>DF15L</td>
+                                    <td>15 HP Diesel</td>
+                                    <td>Modelo estándar</td>
+                                    <td class="price">USD 2,760</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Motocultivador DF15KLM","power":"15 HP Diesel","motor":"15 HP Diesel","features":"Modelo mejorado","price":3211,"category":"motocultivador-diesel","bonus":15,"cashDiscount":7,"ivaRate":10.5,"dollarType":"BNA","fuel":"Diesel","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Fresas incluidas + Kit herramientas + Accesorios extra","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/df15klm.jpg"}'>
+                                    <td>DF15KLM</td>
+                                    <td>15 HP Diesel</td>
+                                    <td>Modelo mejorado</td>
+                                    <td class="price">USD 3,211</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Implementos Logus - SPECIAL PRICING -->
+                <div class="subsection">
+                    <h3>Implementos Logus - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only" style="color: #ff4444; font-weight: bold;">⚠️ PRECIOS ESPECIALES: Bonificación 15% contado / 7% financiado (NO 20%/8%)</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Implemento</th>
+                                    <th>Tipo</th>
+                                    <th>Compatibilidad</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Rastra de Disco Logus","type":"Rastra de Disco","compatibility":"Motocultivadores Logus","price":244,"category":"implementos-logus","bonus":15,"cashDiscount":7,"ivaRate":10.5,"dollarType":"BNA","fuel":"N/A","soundproof":"No","cabin":"No","controlPanel":"N/A","accessories":"Kit de montaje incluido","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/rastra-disco.jpg"}'>
+                                    <td>RASTRA DE DISCO</td>
+                                    <td>Rastra de Disco</td>
+                                    <td>Motocultivadores Logus</td>
+                                    <td class="price">USD 244</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Arado Logus","type":"Arado","compatibility":"Motocultivadores Logus","price":418,"category":"implementos-logus","bonus":15,"cashDiscount":7,"ivaRate":10.5,"dollarType":"BNA","fuel":"N/A","soundproof":"No","cabin":"No","controlPanel":"N/A","accessories":"Kit de montaje incluido","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/arado.jpg"}'>
+                                    <td>ARADO</td>
+                                    <td>Arado</td>
+                                    <td>Motocultivadores Logus</td>
+                                    <td class="price">USD 418</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Chipeadora -->
+                <div class="subsection">
+                    <h3>Chipeadoras a Nafta - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Características</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Chipeadora DR-G65S","power":"6.5 HP","model":"DR-G65S","features":"Modelo compacto","price":789,"category":"chipeadora","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Tolva + Kit seguridad","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/dr-g65s.jpg"}'>
+                                    <td>DR-G65S</td>
+                                    <td>6.5 HP - Compacta</td>
+                                    <td class="price">USD 789</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Chipeadora DR-G65H","power":"6.5 HP HONDA","model":"DR-G65H","features":"Motor HONDA","price":1071,"category":"chipeadora","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Tolva + Kit seguridad + Motor HONDA","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/dr-g65h.jpg"}'>
+                                    <td>DR-G65H</td>
+                                    <td>6.5 HP HONDA</td>
+                                    <td class="price">USD 1,071</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Chipeadora DR-GL-34T","power":"34 HP","model":"DR-GL-34T","features":"Alta capacidad tractor","price":2109,"category":"chipeadora","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Tolva grande + Kit seguridad + Enganche tractor","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/dr-gl-34t.jpg"}'>
+                                    <td>DR-GL-34T</td>
+                                    <td>34 HP - Tractor</td>
+                                    <td class="price">USD 2,109</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Chipeadora DR-TR15","power":"15 HP","model":"DR-TR15","features":"Industrial remolcable","price":3163,"category":"chipeadora","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Tolva industrial + Kit seguridad + Remolque","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/motocultor/dr-tr15.jpg"}'>
+                                    <td>DR-TR15</td>
+                                    <td>15 HP - Industrial remolcable</td>
+                                    <td class="price">USD 3,163</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="construccion" class="tab-content">
+                <div class="section-header">
+                    <h2>Equipos de Construcción - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 25% - Contado descuento 8% - DÓLAR BNA</p>
+                    <p class="note">Motores HONDA y LIFAN de alta confiabilidad</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Tipo</th>
+                                <th>Motor</th>
+                                <th>Especificaciones</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Vibroapisonador RM80H","type":"Vibroapisonador","motor":"HONDA 5.5 HP","specs":"Compactación de suelos","power":"HONDA 5.5 HP","price":1630,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Kit mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/rm80h.jpg"}'>
+                                <td>RM80H</td>
+                                <td>Vibroapisonador</td>
+                                <td>HONDA 5.5 HP</td>
+                                <td>Compactación de suelos</td>
+                                <td class="price">USD 1,630</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Fratachadora S100H","type":"Fratachadora","motor":"HONDA 6.5 HP","specs":"Alisado de concreto","power":"HONDA 6.5 HP","price":1150,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Paletas incluidas + Kit mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/s100h.jpg"}'>
+                                <td>S100H</td>
+                                <td>Fratachadora</td>
+                                <td>HONDA 6.5 HP</td>
+                                <td>Alisado de concreto</td>
+                                <td class="price">USD 1,150</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Plancha Vibradora C95TH","type":"Plancha Vibradora","motor":"HONDA 6.5 HP","specs":"Compactación superficial","power":"HONDA 6.5 HP","price":970,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Kit mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/c95th.jpg"}'>
+                                <td>C95TH</td>
+                                <td>Plancha Vibradora</td>
+                                <td>HONDA 6.5 HP</td>
+                                <td>Compactación superficial</td>
+                                <td class="price">USD 970</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Cortadora de Concreto Q400","type":"Cortadora de Concreto","motor":"LIFAN 13 HP","specs":"Corte de pavimento y concreto","power":"LIFAN 13 HP","price":1235,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Disco de corte + Kit mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/q400.jpg"}'>
+                                <td>Q400</td>
+                                <td>Cortadora Concreto</td>
+                                <td>LIFAN 13 HP</td>
+                                <td>Corte pavimento y concreto</td>
+                                <td class="price">USD 1,235</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Rodillo Compactador RCL641","type":"Rodillo Compactador","motor":"HONDA 5.5 HP","specs":"Compactación de asfalto - 1 rodillo","power":"HONDA 5.5 HP","price":3800,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Kit completo mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/rcl641.jpg"}'>
+                                <td>RCL641</td>
+                                <td>Rodillo Compactador</td>
+                                <td>HONDA 5.5 HP</td>
+                                <td>1 rodillo - Asfalto</td>
+                                <td class="price">USD 3,800</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Rodillo Compactador RCL642","type":"Rodillo Compactador","motor":"HONDA 13 HP","specs":"Compactación de asfalto - 2 rodillos","power":"HONDA 13 HP","price":7800,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Kit completo mantenimiento","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/rcl642.jpg"}'>
+                                <td>RCL642</td>
+                                <td>Rodillo Compactador</td>
+                                <td>HONDA 13 HP</td>
+                                <td>2 rodillos - Asfalto</td>
+                                <td class="price">USD 7,800</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Vibrador de Concreto VCML","type":"Vibrador de Concreto","motor":"LIFAN 13 HP","specs":"Vibración para fundición de concreto","power":"LIFAN 13 HP","price":270,"category":"construccion","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Nafta","soundproof":"No","cabin":"No","controlPanel":"Manual","accessories":"Cabezal vibratorio + Manguera","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/construccion/vcml.jpg"}'>
+                                <td>VCML</td>
+                                <td>Vibrador Concreto</td>
+                                <td>LIFAN 13 HP</td>
+                                <td>Fundición de concreto</td>
+                                <td class="price">USD 270</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Cabezal/Manguera 38MM","type":"Accesorio Vibrador","motor":"N/A","specs":"Cabezal y manguera 38mm para vibrador","power":"N/A","price":135,"category":"construccion-accesorios","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"N/A","soundproof":"No","cabin":"No","controlPanel":"N/A","accessories":"Cabezal vibratorio 38mm + Manguera flexible","warranty":"6 meses garantía","financing":"Cheques 0-30-60-90 días","image":"products/construccion/cabezal-38mm.jpg"}'>
+                                <td>Cabezal/Manguera</td>
+                                <td>Accesorio</td>
+                                <td>N/A</td>
+                                <td>38MM para vibrador</td>
+                                <td class="price">USD 135</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Cabezal/Manguera 45MM","type":"Accesorio Vibrador","motor":"N/A","specs":"Cabezal y manguera 45mm para vibrador","power":"N/A","price":140,"category":"construccion-accesorios","bonus":25,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"N/A","soundproof":"No","cabin":"No","controlPanel":"N/A","accessories":"Cabezal vibratorio 45mm + Manguera flexible","warranty":"6 meses garantía","financing":"Cheques 0-30-60-90 días","image":"products/construccion/cabezal-45mm.jpg"}'>
+                                <td>Cabezal/Manguera</td>
+                                <td>Accesorio</td>
+                                <td>N/A</td>
+                                <td>45MM para vibrador</td>
+                                <td class="price">USD 140</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="compresores" class="tab-content">
+                <div class="section-header">
+                    <h2>Compresores a Tornillo - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8% - DÓLAR BNA</p>
+                    <p class="note">Alta eficiencia y bajo mantenimiento</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <!-- Compresores Principales -->
+                <div class="subsection">
+                    <h3>Compresores a Tornillo - IVA 10,5% <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Potencia</th>
+                                    <th>Presión</th>
+                                    <th>Peso</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SE-10TD 4 en 1","power":"7.5 kW","pressure":"10 Bar","weight":"185 Kg","model":"SE-10TD","features":"4 en 1 - Completo","price":6000,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero digital","accessories":"Tanque + Secador + Filtros","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/se-10td.jpg"}'>
+                                    <td>SE-10TD 4 en 1</td>
+                                    <td>7.5 kW</td>
+                                    <td>10 Bar</td>
+                                    <td>185 Kg</td>
+                                    <td class="price">USD 6,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SV-10","power":"7.5 kW","pressure":"10 Bar","weight":"200 Kg","model":"SV-10","features":"Estándar","price":4000,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero control","accessories":"Kit básico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/sv-10.jpg"}'>
+                                    <td>SV-10</td>
+                                    <td>7.5 kW</td>
+                                    <td>10 Bar</td>
+                                    <td>200 Kg</td>
+                                    <td class="price">USD 4,000</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SV-20","power":"15 kW","pressure":"10 Bar","weight":"290 Kg","model":"SV-20","features":"Media capacidad","price":6500,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero control","accessories":"Kit básico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/sv-20.jpg"}'>
+                                    <td>SV-20</td>
+                                    <td>15 kW</td>
+                                    <td>10 Bar</td>
+                                    <td>290 Kg</td>
+                                    <td class="price">USD 6,500</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SV-30","power":"30 HP","pressure":"10 Bar","weight":"345 Kg","model":"SV-30","features":"Alta capacidad","price":7600,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero control avanzado","accessories":"Kit completo","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/sv-30.jpg"}'>
+                                    <td>SV-30</td>
+                                    <td>30 HP</td>
+                                    <td>10 Bar</td>
+                                    <td>345 Kg</td>
+                                    <td class="price">USD 7,600</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SV-50","power":"50 HP","pressure":"10 Bar","weight":"550 Kg","model":"SV-50","features":"Muy alta capacidad","price":"Proximamente","category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero control avanzado","accessories":"Kit completo","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/sv-50.jpg"}'>
+                                    <td>SV-50</td>
+                                    <td>50 HP</td>
+                                    <td>10 Bar</td>
+                                    <td>550 Kg</td>
+                                    <td class="price">Proximamente</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SE-5TN","power":"5 HP","pressure":"8 Bar","weight":"120 Kg","model":"SE-5TN","features":"Compacto","price":3100,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero básico","accessories":"Kit básico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/se-5tn.jpg"}'>
+                                    <td>SE-5TN</td>
+                                    <td>5 HP</td>
+                                    <td>8 Bar</td>
+                                    <td>120 Kg</td>
+                                    <td class="price">USD 3,100</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Compresor SE-10TN","power":"10 HP","pressure":"10 Bar","weight":"150 Kg","model":"SE-10TN","features":"Estándar","price":3500,"category":"compresor-tornillo","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Tablero control","accessories":"Kit básico","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/se-10tn.jpg"}'>
+                                    <td>SE-10TN</td>
+                                    <td>10 HP</td>
+                                    <td>10 Bar</td>
+                                    <td>150 Kg</td>
+                                    <td class="price">USD 3,500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Accesorios - DIFFERENT IVA RATES -->
+                <div class="subsection">
+                    <h3>Accesorios para Compresores <span class="internal-only">- DÓLAR BNA</span></h3>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8%</p>
+                    <p class="note internal-only" style="color: #ff4444; font-weight: bold;">⚠️ ATENCIÓN: Secadoras IVA 10,5% / Tanque IVA 21%</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Modelo</th>
+                                    <th>Tipo</th>
+                                    <th>Capacidad</th>
+                                    <th>IVA</th>
+                                    <th>PVP sin IVA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Secadora HD10AC","type":"Secadora de Aire","capacity":"10 m³/min","model":"HD10AC","features":"Secador refrigerativo","price":1490,"category":"compresor-accesorio","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Control automático","accessories":"Incluye filtros","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/hd10ac.jpg"}'>
+                                    <td>HD10AC</td>
+                                    <td>Secadora</td>
+                                    <td>10 m³/min</td>
+                                    <td class="iva-rate">10.5%</td>
+                                    <td class="price">USD 1,490</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Secadora HD20AC","type":"Secadora de Aire","capacity":"20 m³/min","model":"HD20AC","features":"Secador refrigerativo","price":1800,"category":"compresor-accesorio","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","fuel":"Eléctrico","soundproof":"No","cabin":"No","controlPanel":"Control automático","accessories":"Incluye filtros","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/hd20ac.jpg"}'>
+                                    <td>HD20AC</td>
+                                    <td>Secadora</td>
+                                    <td>20 m³/min</td>
+                                    <td class="iva-rate">10.5%</td>
+                                    <td class="price">USD 1,800</td>
+                                </tr>
+                                <tr class="clickable-product"
+                                    data-product='{"name":"Tanque Vertical 300L","type":"Tanque de Aire","capacity":"300 Litros","model":"TV-300L","features":"Tanque vertical","price":800,"category":"compresor-accesorio","bonus":20,"cashDiscount":8,"ivaRate":21,"dollarType":"BNA","fuel":"N/A","soundproof":"No","cabin":"No","controlPanel":"N/A","accessories":"Válvulas incluidas","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/compresor/tanque-300l.jpg"}'>
+                                    <td>Tanque Vertical</td>
+                                    <td>Tanque</td>
+                                    <td>300 Litros</td>
+                                    <td class="iva-rate" style="color: #ff4444; font-weight: bold;">21%</td>
+                                    <td class="price">USD 800</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="torres" class="tab-content">
+                <div class="section-header">
+                    <h2>Torres de Iluminación - IVA 10,5%</h2>
+                    <p class="promo internal-only">Bonificación 20% - Contado descuento 8% - DÓLAR BNA</p>
+                    <p class="note">Motor Kubota Z482 - Diesel - Alta eficiencia y autonomía</p>
+                    <p class="click-info">💡 Click en cualquier fila para ver detalles completos del producto</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Modelo</th>
+                                <th>Cobertura</th>
+                                <th>Luminarias</th>
+                                <th>Altura</th>
+                                <th>Motor</th>
+                                <th>Autonomía</th>
+                                <th>Peso</th>
+                                <th>PVP sin IVA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Torre de Iluminación V5 + NEO ROW","model":"V5 + NEO ROW","coverage":"5000 m²","lumens":"4 x 150W LED = 600W total / 90000 lumens","height":"7 metros","motor":"Kubota Z482","fuel":"Diesel","fuelConsumption":"0.8 L/h","tankCapacity":"60 Litros","autonomy":"75 horas","noise":"63 dB(A) @ 7m","weight":"704 Kg","price":20245,"category":"torre-iluminacion","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","soundproof":"No","cabin":"No","controlPanel":"Panel digital","accessories":"4 luminarias LED 150W + Mástil telescópico 7m + Control remoto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/torres/v5-neo-row.jpg"}'>
+                                <td>V5 + NEO ROW</td>
+                                <td>5000 m²</td>
+                                <td>4x150W LED<br>90000 lm</td>
+                                <td>7 metros</td>
+                                <td>Kubota Z482<br>0.8 L/h</td>
+                                <td>75 horas<br>63 dB(A)</td>
+                                <td>704 Kg</td>
+                                <td class="price">USD 20,245</td>
+                            </tr>
+                            <tr class="clickable-product"
+                                data-product='{"name":"Torre de Iluminación V7 + ROW","model":"V7 + ROW","coverage":"7260 m²","lumens":"4 x 180W LED = 720W total / 130000 lumens","height":"7.5 metros","motor":"Kubota Z482","fuel":"Diesel","fuelConsumption":"0.8 L/h","tankCapacity":"60 Litros","autonomy":"75 horas","noise":"63 dB(A) @ 7m","weight":"704 Kg","price":22826,"category":"torre-iluminacion","bonus":20,"cashDiscount":8,"ivaRate":10.5,"dollarType":"BNA","soundproof":"No","cabin":"No","controlPanel":"Panel digital","accessories":"4 luminarias LED 180W + Mástil telescópico 7.5m + Control remoto","warranty":"12 meses garantía oficial","financing":"Cheques 0-30-60-90 días","image":"products/torres/v7-row.jpg"}'>
+                                <td>V7 + ROW</td>
+                                <td>7260 m²</td>
+                                <td>4x180W LED<br>130000 lm</td>
+                                <td>7.5 metros</td>
+                                <td>Kubota Z482<br>0.8 L/h</td>
+                                <td>75 horas<br>63 dB(A)</td>
+                                <td>704 Kg</td>
+                                <td class="price">USD 22,826</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Especificaciones Técnicas Detalladas -->
+                <div class="subsection">
+                    <h3>Especificaciones Técnicas Completas</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Característica</th>
+                                    <th>V5 + NEO ROW</th>
+                                    <th>V7 + ROW</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cobertura de iluminación</strong></td>
+                                    <td>5000 m²</td>
+                                    <td>7260 m²</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Luminarias</strong></td>
+                                    <td>4 x 150W LED</td>
+                                    <td>4 x 180W LED</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Potencia lumínica total</strong></td>
+                                    <td>600W / 90000 lumens</td>
+                                    <td>720W / 130000 lumens</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Altura del mástil</strong></td>
+                                    <td>7 metros</td>
+                                    <td>7.5 metros</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Motor</strong></td>
+                                    <td>Kubota Z482 Diesel</td>
+                                    <td>Kubota Z482 Diesel</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Consumo combustible</strong></td>
+                                    <td>0.8 L/h</td>
+                                    <td>0.8 L/h</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Capacidad tanque</strong></td>
+                                    <td>60 Litros</td>
+                                    <td>60 Litros</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Autonomía</strong></td>
+                                    <td>75 horas</td>
+                                    <td>75 horas</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Nivel de ruido @ 7m</strong></td>
+                                    <td>63 dB(A)</td>
+                                    <td>63 dB(A)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Peso total</strong></td>
+                                    <td>704 Kg</td>
+                                    <td>704 Kg</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Características adicionales</strong></td>
+                                    <td colspan="2">
+                                        • Mástil telescópico con sistema hidráulico<br>
+                                        • Control remoto inalámbrico<br>
+                                        • Rotación 360° de luminarias<br>
+                                        • Sistema de estabilización automática<br>
+                                        • Ideal para obras, eventos, minería<br>
+                                        • Remolcable con enganche estándar<br>
+                                        • Paneles LED de larga duración
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="alquiler" class="tab-content">
+                <div class="section-header">
+                    <h2>Servicio de Alquiler de Generadores</h2>
+                    <p class="note">Esta sección muestra información de alquiler sin detalles clickeables</p>
+                </div>
+
+                <div class="alquiler-intro">
+                    <h3>SERVICIO PROFESIONAL DE ALQUILER</h3>
+                    <p>Ofrecemos servicio de alquiler de grupos electrógenos para eventos, obras, empresas y emergencias.</p>
+                    <ul class="benefits-list">
+                        <li>✅ Delivery y retiro SIN CARGO (CABA y GBA)</li>
+                        <li>✅ Combustible incluido en el precio</li>
+                        <li>✅ Asistencia técnica 24/7</li>
+                        <li>✅ Reemplazo inmediato ante fallas</li>
+                        <li>✅ Instalación y puesta en marcha</li>
+                        <li>✅ Mantenimiento durante el alquiler</li>
+                    </ul>
+                </div>
+
+                <div class="table-container">
+                    <h3>Generadores Portátiles</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Potencia</th>
+                                <th>Por Día</th>
+                                <th>Por Semana</th>
+                                <th>Por Mes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>3-5 KVA</td>
+                                <td class="price">USD 35</td>
+                                <td class="price">USD 210</td>
+                                <td class="price">USD 700</td>
+                            </tr>
+                            <tr>
+                                <td>6-8 KVA</td>
+                                <td class="price">USD 45</td>
+                                <td class="price">USD 270</td>
+                                <td class="price">USD 900</td>
+                            </tr>
+                            <tr>
+                                <td>10 KVA</td>
+                                <td class="price">USD 65</td>
+                                <td class="price">USD 390</td>
+                                <td class="price">USD 1,300</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <h3>Generadores Industriales</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Potencia</th>
+                                <th>Por Día</th>
+                                <th>Por Semana</th>
+                                <th>Por Mes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20-30 KVA</td>
+                                <td class="price">USD 95</td>
+                                <td class="price">USD 570</td>
+                                <td class="price">USD 1,900</td>
+                            </tr>
+                            <tr>
+                                <td>40-50 KVA</td>
+                                <td class="price">USD 135</td>
+                                <td class="price">USD 810</td>
+                                <td class="price">USD 2,700</td>
+                            </tr>
+                            <tr>
+                                <td>60-80 KVA</td>
+                                <td class="price">USD 185</td>
+                                <td class="price">USD 1,110</td>
+                                <td class="price">USD 3,700</td>
+                            </tr>
+                            <tr>
+                                <td>100-150 KVA</td>
+                                <td class="price">USD 260</td>
+                                <td class="price">USD 1,560</td>
+                                <td class="price">USD 5,200</td>
+                            </tr>
+                            <tr>
+                                <td>200+ KVA</td>
+                                <td class="price">Consultar</td>
+                                <td class="price">Consultar</td>
+                                <td class="price">Consultar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>📞 Tel/WhatsApp: +54 11 3956-3099</p>
+                    <p>✉️ Email: info@generadores.ar</p>
+                    <p>🌐 Web: www.generadores.ar</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Redes Sociales</h3>
+                    <p>📘 Facebook: facebook.com/generadores.ar</p>
+                    <p>📸 Instagram: @generadores.ar</p>
+                    <p>📺 YouTube: Canal KOR Generadores</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Servicios</h3>
+                    <p>✅ Venta de Generadores</p>
+                    <p>✅ Alquiler (Día/Semana/Mes)</p>
+                    <p>✅ Servicio Técnico Multimarca</p>
+                    <p>✅ Repuestos Originales</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 KOR Generadores en Línea - www.generadores.ar - Lista #1083 - Noviembre 2025</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
