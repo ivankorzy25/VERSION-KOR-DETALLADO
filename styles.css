@@ -73,7 +73,7 @@ body {
 }
 
 .login-logo {
-    max-width: 180px;
+    max-width: 360px;
     height: auto;
     margin-bottom: 20px;
     filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7));
@@ -87,7 +87,7 @@ body {
 
 .login-box h1 {
     color: #fd6600;
-    font-size: 2.5em;
+    font-size: 1.8em;
     margin-bottom: 10px;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     letter-spacing: 2px;
@@ -95,7 +95,7 @@ body {
 
 .login-box h2 {
     color: #ddd;
-    font-size: 1.3em;
+    font-size: 1em;
     margin-bottom: 30px;
     font-weight: 400;
 }
@@ -207,12 +207,16 @@ body {
         padding: 40px 30px;
     }
 
+    .login-logo {
+        max-width: 280px;
+    }
+
     .login-box h1 {
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
     .login-box h2 {
-        font-size: 1.1em;
+        font-size: 0.9em;
     }
 }
 
@@ -222,11 +226,15 @@ body {
     }
 
     .login-logo {
-        max-width: 120px;
+        max-width: 200px;
     }
 
     .login-box h1 {
-        font-size: 1.7em;
+        font-size: 1.3em;
+    }
+
+    .login-box h2 {
+        font-size: 0.8em;
     }
 }
 
